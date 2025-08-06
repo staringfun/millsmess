@@ -1,0 +1,14 @@
+// Mills Mess
+// Licensed under the Mills Mess License Agreement
+// See LICENSE.md in the root of this repository.
+
+go 1.24.4
+
+use (
+	libs/base
+	libs/internal-core-api
+	libs/public-core-api
+	libs/test-utils
+	libs/types
+	services/socket
+)
