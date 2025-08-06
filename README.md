@@ -1,4 +1,4 @@
-# Mills' Mess
+# Mills' Mess <img alt="Mills Mess logo" align="right" width="128" height="128" src="./img/logo.png" />
 
 ## License
 
