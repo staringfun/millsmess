@@ -7,3 +7,5 @@ Mills Mess is licensed under the Mills Mess License Agreement.
 - 💰 Royalties apply beyond that (5%, then 3%).
 
 See the full [LICENSE.md](./LICENSE.md) for details.
+
+Questions? Contact us at [millsmess@staring.fun](mailto:millsmess@staring.fun)

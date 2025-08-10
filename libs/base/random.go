@@ -5,10 +5,23 @@
 package base
 
 import (
-	"math/rand/v2"
+	"crypto/rand"
+	"github.com/staringfun/millsmess/libs/types"
+	"math/big"
 )
 
-var RandomStringRunes = []rune{
+func GenerateRandomStringRunes(length int, runes []rune) string {
+	result := make([]rune, length)
+	m := big.NewInt(int64(len(runes)))
+
+	for i := range result {
+		n, _ := rand.Int(rand.Reader, m)
+		result[i] = runes[n.Int64()]
+	}
+	return string(result)
+}
+
+var URLSafeRunes = []rune{
 	'a',
 	'b',
 	'c',
@@ -76,13 +89,12 @@ var RandomStringRunes = []rune{
 	'.',
 }
 
-var randomStringRunesLength = len(RandomStringRunes)
-
 func GenerateRandomString(length int) string {
-	s := make([]rune, length)
-	for i := range length {
-		s[i] = RandomStringRunes[rand.IntN(randomStringRunesLength)]
-	}
+	return GenerateRandomStringRunes(length, URLSafeRunes)
+}
 
-	return string(s)
+const PlayerIDLength = 8
+
+func GeneratePlayerID() types.PlayerID {
+	return types.PlayerID(GenerateRandomString(PlayerIDLength))
 }

@@ -12,15 +12,15 @@ import (
 )
 
 type LoggerConfig struct {
-	Level             int8 `json:"level" yaml:"level" default:"0"`
-	EnablePrettyPrint bool `json:"enablePrettyPrint" yaml:"enablePrettyPrint"`
+	Level              int8 `json:"level" yaml:"level" env:"LOGGER_LEVEL" default:"0"`
+	PrettyPrintEnabled bool `json:"prettyPrintEnabled" yaml:"prettyPrintEnabled" env:"LOGGER_PRETTY_PRINT_ENABLED"`
 }
 
 func NewLogger(config LoggerConfig) Logger {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
 	logger := zerolog.New(os.Stderr).With().Timestamp().Logger()
-	if config.EnablePrettyPrint {
+	if config.PrettyPrintEnabled {
 		logger = logger.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 	logger = logger.Level(zerolog.Level(config.Level))

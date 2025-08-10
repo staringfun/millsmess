@@ -9,14 +9,22 @@ import (
 	"strings"
 )
 
-type Config interface {
+type ConfigLoader interface {
 	Load(paths string, data any) error
 }
 
-type DefaultConfig struct {
+type DefaultConfigLoader struct {
+	*configor.Configor
 }
 
-func (d *DefaultConfig) Load(paths string, data any) error {
+func NewDefaultConfigLoader() ConfigLoader {
+	return &DefaultConfigLoader{configor.New(&configor.Config{
+		Silent: true,
+	})}
+}
+
+func (d *DefaultConfigLoader) Load(paths string, data any) error {
 	p := strings.Split(paths, ",")
-	return configor.Load(data, p...)
+	p = append(p, "config.yaml", "config.yml")
+	return d.Configor.Load(data, p...)
 }

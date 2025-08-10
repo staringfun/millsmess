@@ -6,10 +6,6 @@ package base
 
 import "context"
 
-type RetryStrategy interface {
-	Next() int
-}
-
 type MemoryStorageTransaction interface {
 	Commit() error
 	Rollback() error
