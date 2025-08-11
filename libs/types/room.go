@@ -6,6 +6,10 @@ package types
 
 type RoomID string
 
-func (r RoomID) IsEmpty() bool {
-	return r == ""
+func (id RoomID) IsEmpty() bool {
+	return id == ""
+}
+
+func (id RoomID) String() string {
+	return string(id)
 }
