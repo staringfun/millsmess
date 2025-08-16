@@ -6,23 +6,12 @@ package types
 
 import "time"
 
-type UserID string
-type UserUsername string
-type UserRole string
-
-const (
-	UserRoleAdmin     UserRole = "admin"
-	UserRoleModerator UserRole = "moderator"
-	UserRoleMember    UserRole = "member"
-	UserRoleGuest     UserRole = "guest"
-)
-
 type User interface {
 	GetID() UserID
 	SetID(UserID)
 
-	GetUsername() UserUsername
-	SetUsername(UserUsername)
+	GetUsername() Username
+	SetUsername(Username)
 
 	GetRole() UserRole
 	SetRole(UserRole)
@@ -32,10 +21,10 @@ type User interface {
 }
 
 type BaseUser struct {
-	ID       UserID       `json:"id"`
-	Username UserUsername `json:"username"`
-	Role     UserRole     `json:"role"`
-	BannedAt *time.Time   `json:"bannedAt"`
+	ID       UserID     `json:"id"`
+	Username Username   `json:"username"`
+	Role     UserRole   `json:"role"`
+	BannedAt *time.Time `json:"bannedAt"`
 }
 
 func (u *BaseUser) GetID() UserID {
@@ -46,11 +35,11 @@ func (u *BaseUser) SetID(id UserID) {
 	u.ID = id
 }
 
-func (u *BaseUser) GetUsername() UserUsername {
+func (u *BaseUser) GetUsername() Username {
 	return u.Username
 }
 
-func (u *BaseUser) SetUsername(username UserUsername) {
+func (u *BaseUser) SetUsername(username Username) {
 	u.Username = username
 }
 
