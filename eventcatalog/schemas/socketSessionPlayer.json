@@ -1,0 +1,17 @@
+{
+  "title": "SocketSessionPlayer",
+  "type": "object",
+  "properties": {
+    "isWin": {
+      "type": "boolean"
+    },
+    "points": {
+      "$ref": "points.json#"
+    },
+    "data": {
+      "type": "object"
+    }
+  },
+  "required": ["isWin", "points", "data"],
+  "additionalProperties": false
+}

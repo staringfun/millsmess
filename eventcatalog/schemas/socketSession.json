@@ -1,0 +1,37 @@
+{
+  "title": "SocketSession",
+  "type": "object",
+  "goInterface": true,
+  "properties": {
+    "id": {
+      "$ref": "./sessionID.json#"
+    },
+    "game": {
+      "$ref": "game.json#"
+    },
+    "players": {
+      "type": "object",
+      "goKeyType": "UserID",
+      "additionalProperties": {
+        "$ref": "./socketSessionPlayer.json#"
+      }
+    },
+    "data": {
+      "type": "object"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finishedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "game", "players", "data", "createdAt"],
+  "additionalProperties": false
+}

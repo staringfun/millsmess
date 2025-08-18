@@ -8,6 +8,9 @@
     "profile": {
       "$ref": "room.json#"
     },
+    "session": {
+      "$ref": "socketSession.json#"
+    },
     "players": {
       "type": "array",
       "items": {

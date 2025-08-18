@@ -1,0 +1,14 @@
+{
+  "title": "MV1RoomJoin",
+  "type": "object",
+  "properties": {
+    "roomID": {
+      "$ref": "roomID.json#"
+    },
+    "key": {
+      "$ref": "messageKey.json#"
+    }
+  },
+  "required": ["roomID"],
+  "additionalProperties": false
+}

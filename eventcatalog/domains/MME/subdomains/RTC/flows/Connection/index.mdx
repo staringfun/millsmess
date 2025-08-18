@@ -1,0 +1,77 @@
+---
+id: Connection
+name: Socket Connection
+version: "0.0.0"
+summary: "Flow for when a player connects"
+steps:
+  - id: "connection_initiated"
+    title: "Connects"
+    summary: "Players connects"
+    actor:
+      name: "Player"
+    next_step:
+      id: "connection_connect"
+      label: "Initiate connection"
+
+  - id: "connection_connect"
+    title: "Send Connect"
+    message:
+      id: "Connect"
+      version: "1"
+    next_step:
+      id: "connection_socket_connect"
+      label: "Receives connection"
+
+  - id: "connection_socket_connect"
+    title: "Accepts connection"
+    service:
+      id: Socket
+      version: "0.0.0"
+    next_step:
+      id: "connection_socket_getme"
+      label: "Fetches user info"
+
+  - id: "connection_socket_getme"
+    title: "Retrieve user info"
+    message:
+      id: "GetMe"
+      version: "0.0.0"
+    next_steps:
+      - id: "connection_socket_accept"
+        label: "Accept connection"
+      - id: "connection_socket_reject"
+        label: "Reject connection on ban or no user"
+
+  - id: "connection_socket_reject"
+    title: "Rejects new connection"
+    actor:
+      name: "Player"
+
+  - id: "connection_socket_accept"
+    title: "Accepts new connection"
+    service:
+      id: Socket
+      version: "0.0.0"
+    next_step:
+      id: "connection_socket_playerUpdate"
+      label: "Send initial event"
+
+  - id: "connection_socket_playerUpdate"
+    title: "Send player update"
+    message:
+      id: "PlayerUpdate"
+      version: "1"
+    next_step:
+      id: "connection_connected"
+      label: "Receive an event"
+
+  - id: "connection_connected"
+    title: "Connects"
+    summary: "Players connection is established"
+    actor:
+      name: "Player"
+---
+
+This flow documents what happens when a Players connects to Socket service.
+
+<NodeGraph />

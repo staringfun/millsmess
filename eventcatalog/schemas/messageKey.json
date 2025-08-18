@@ -1,0 +1,6 @@
+{
+  "title": "MessageKey",
+  "type": "integer",
+  "goType": "int",
+  "goEmptyValue": 0
+}

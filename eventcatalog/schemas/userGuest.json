@@ -12,6 +12,9 @@
     "role": {
       "$ref": "userRole.json#"
     },
+    "points": {
+      "$ref": "points.json#"
+    },
     "createdAt": {
       "type": "string",
       "format": "date"
@@ -21,6 +24,6 @@
       "format": "date"
     }
   },
-  "required": ["id", "username", "role", "createdAt"],
+  "required": ["id", "username", "points", "role", "createdAt"],
   "additionalProperties": false
 }

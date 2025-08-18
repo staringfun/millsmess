@@ -1,0 +1,5 @@
+{
+  "title": "JoinResult",
+  "type": "string",
+  "enum": ["full", "not_found"]
+}

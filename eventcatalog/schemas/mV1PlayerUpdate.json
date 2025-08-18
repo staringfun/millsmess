@@ -4,6 +4,21 @@
   "properties": {
     "player": {
       "$ref": "player.json#"
+    },
+    "joinResult": {
+      "$ref": "joinResult.json#"
+    },
+    "joinedRoom": {
+      "$ref": "socketRoom.json#"
+    },
+    "leftRoom": {
+      "$ref": "roomID.json#"
+    },
+    "leftRoomReason": {
+      "$ref": "leaveReason.json#"
+    },
+    "key": {
+      "$ref": "messageKey.json#"
     }
   },
   "additionalProperties": false

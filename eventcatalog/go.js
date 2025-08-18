@@ -37,22 +37,34 @@ function formatName(name) {
 
 function formatEnumName(name) {
     return name
-        .split(/[:.]/)
+        .split(/[:._]/)
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
         .join('');
 }
 
 function formatType(property) {
     if (property.title) return property.title
-    if (property.type) {
-        if (property.type === 'string') {
-            if (property.format === 'date') {
+    if (property.goType) return property.goType
+    switch (property.type) {
+        case 'boolean':
+            return 'bool'
+        case 'string':
+            if (property.format === 'date' || property.format === 'date-time') {
                 return 'time.Time'
             }
-        }
-        if (property.type === 'array') {
+            break
+        case 'array':
             return `[]${formatType(property.items)}`
-        }
+        case 'object':
+            if (property.additionalProperties) {
+                if (!property.properties) {
+                    const key = property.goKeyType || 'any'
+                    return `map[${key}]${formatType(property.additionalProperties)}`
+                }
+            } else {
+                return 'any'
+            }
+        break
     }
     return property.type
 }
@@ -92,7 +104,7 @@ class FileWriter {
         this.appendLinesWithTabs(1,`return ${schemaType}(${ref})`)
         this.appendLine(`}`)
 
-        const emptyValue = schema.goEmptyValue || ''
+        const emptyValue = schema.goEmptyValue ?? ''
         this.appendLine(`func (${ref} ${schema.title}) IsEmpty() bool {`)
         this.appendLinesWithTabs(1, `return ${ref} == ${JSON.stringify(emptyValue)}`)
         this.appendLine(`}`)
@@ -163,6 +175,7 @@ class FileWriter {
     }
 
     writeStruct(schema, name) {
+        const ref = (name || schema.title).charAt(0).toLowerCase()
         this.appendLine(`type ${name || schema.title} struct {`)
         Object.keys(schema.properties).forEach((p) => {
             const property = schema.properties[p]
@@ -184,13 +197,53 @@ class FileWriter {
                     }
                 }
             }
-            const required = schema.required?.length ? schema.required.some(r => r === p) : false
+            const required = schema.required?.length ? property.goInterface || schema.required.some(r => r === p) : property.goInterface
             this.appendLinesWithTabs(1, `${formatName(p)} ${required ? '' : '*'}${formatType(property)} \`json:"${p},omitempty"\``)
         })
         if (schema.goImplements) {
             this.appendLinesWithTabs(1, `*Base${schema.goImplements}`)
         }
         this.appendLine(`}`)
+        if (!schema.goNoIsValid) {
+            this.appendLine(`func (${ref} *${name || schema.title}) IsValid() bool {`)
+            this.appendLinesWithTabs(1, `if ${ref} == nil {`)
+            this.appendLinesWithTabs(2, `return false`)
+            this.appendLinesWithTabs(1, `}`)
+            Object.keys(schema.properties).forEach((p) => {
+                const property = schema.properties[p]
+                if (property.format === 'date' || property.format === 'date-time') return
+                if (property.type === 'boolean') return
+                if (property.goInterface) return;
+                if (property.type === 'object') {
+                    if (property.additionalProperties) {
+                        this.appendLinesWithTabs(1, `for _, ${ref}${ref} := range ${ref}.${formatName(p)} {`)
+                        this.appendLinesWithTabs(2, `if !${ref}${ref}.IsValid() {`)
+                        this.appendLinesWithTabs(3, `return false`)
+                        this.appendLinesWithTabs(2, `}`)
+                        this.appendLinesWithTabs(1, `}`)
+                        return;
+                    } else {
+                        if (!property.properties) {
+                            return;
+                        }
+                    }
+                }
+                if (property.type === 'array') {
+                    this.appendLinesWithTabs(1, `for _, ${ref}${ref} := range ${ref}.${formatName(p)} {`)
+                    this.appendLinesWithTabs(2, `if !${ref}${ref}.IsValid() {`)
+                    this.appendLinesWithTabs(3, `return false`)
+                    this.appendLinesWithTabs(2, `}`)
+                    this.appendLinesWithTabs(1, `}`)
+                    return;
+                }
+                const required = schema.required?.length ? property.goInterface || schema.required.some(r => r === p) : property.goInterface
+                this.appendLinesWithTabs(1, `if ${required ? '' : `${ref}.${formatName(p)} != nil && `}!${ref}.${formatName(p)}.IsValid() {`)
+                this.appendLinesWithTabs(2, `return false`)
+                this.appendLinesWithTabs(1, `}`)
+            })
+            this.appendLinesWithTabs(1, `return true`)
+            this.appendLine(`}`)
+        }
     }
 
     writeInterface(schema) {
@@ -204,15 +257,22 @@ class FileWriter {
         this.appendLine(`}`)
         if (!schema.noGoBase) {
             const ref = schema.title.charAt(0).toLowerCase()
-            this.writeStruct(schema, `Base${schema.title}`)
+            this.writeStruct({...schema, goNoIsValid: true}, `Base${schema.title}`)
             Object.keys(schema.properties).forEach((p) => {
                 const property = schema.properties[p]
                 const required = schema.required?.length ? schema.required.some(r => r === p) : false
                 this.appendLine(`func (${ref} *Base${schema.title}) Get${formatName(p)}() ${required ? '' : '*'}${formatType(property)} {`)
+                this.appendLinesWithTabs(1, `if ${ref} == nil {`)
+                this.appendLinesWithTabs(2, `var ${ref}${ref} ${required ? '' : '*'}${formatType(property)}`)
+                this.appendLinesWithTabs(2, `return ${ref}${ref}`)
+                this.appendLinesWithTabs(1, `}`)
                 this.appendLinesWithTabs(1, `return ${ref}.${formatName(p)}`)
                 this.appendLine('}')
-                this.appendLine(`func (${ref} *Base${schema.title}) Set${formatName(p)}(v ${required ? '' : '*'}${formatType(property)}) {`)
-                this.appendLinesWithTabs(1, `${ref}.${formatName(p)} = v`)
+                this.appendLine(`func (${ref} *Base${schema.title}) Set${formatName(p)}(${ref}${ref} ${required ? '' : '*'}${formatType(property)}) {`)
+                this.appendLinesWithTabs(1, `if ${ref} == nil {`)
+                this.appendLinesWithTabs(2, `return`)
+                this.appendLinesWithTabs(1, `}`)
+                this.appendLinesWithTabs(1, `${ref}.${formatName(p)} = ${ref}${ref}`)
                 this.appendLine('}')
             })
         }
@@ -260,7 +320,7 @@ module.exports = async (config, options = {}) => {
     preamble.forEach(p => {
         writer.appendLine(p)
     })
-    writer.appendLine(`// Package types: Code generated; DO NOT EDIT;`)
+    writer.appendLine(`// Package ${packageName}: Code generated; DO NOT EDIT;`)
     writer.appendLine(`package ${packageName}`)
     writer.appendLine('')
     writer.appendLine(`import "time"`)

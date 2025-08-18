@@ -6,13 +6,11 @@ package socket
 
 import (
 	"context"
+	"errors"
 	"github.com/staringfun/millsmess/libs/base"
 	"github.com/staringfun/millsmess/libs/internal-core-api"
 	"github.com/staringfun/millsmess/libs/public-core-api"
 	"github.com/staringfun/millsmess/libs/types"
-	"io"
-	"sync"
-	"sync/atomic"
 )
 
 type Preconnect struct {
@@ -29,13 +27,13 @@ func (p *Preconnect) NewTxPreconnect(args PreconnectArgs, ctx context.Context) *
 	}
 }
 
-func (p *Preconnect) Run(args PreconnectArgs, ctx context.Context) (*SocketConnectionData, error) {
+func (p *Preconnect) Run(args PreconnectArgs, ctx context.Context) (*ClientSocketData, error) {
 	tx := p.NewTxPreconnect(args, ctx)
 	err := p.Base.RunTx(tx)
 	if err != nil {
 		return nil, err
 	}
-	return tx.ConnectionData, nil
+	return tx.ClientData, nil
 }
 
 type PreconnectArgs struct {
@@ -43,29 +41,15 @@ type PreconnectArgs struct {
 	Cookie        string
 	XForwardedFor string
 	UserAgent     string
-	RoomID        types.RoomID
-}
-
-type MatchArgs struct {
-	RoomID types.RoomID
-}
-
-type SocketConnectionData struct {
-	ctx       context.Context
-	cancel    context.CancelFunc
-	user      types.User
-	pongedAt  atomic.Value
-	matchArgs *MatchArgs
-	connectMu sync.Mutex
-	Writer    io.Writer
+	JoinRoomID    types.RoomID
 }
 
 type TxPreconnect struct {
 	*base.BaseTx
-	Args           PreconnectArgs
-	CoreInternal   *internal_core_api.InternalCoreAPI
-	ConnectionData *SocketConnectionData
-	baseCtx        context.Context
+	Args         PreconnectArgs
+	CoreInternal *internal_core_api.InternalCoreAPI
+	ClientData   *ClientSocketData
+	baseCtx      context.Context
 }
 
 func (t *TxPreconnect) LoadData() (bool, error) {
@@ -77,22 +61,34 @@ func (t *TxPreconnect) LoadData() (bool, error) {
 		"User-Agent":      t.Args.UserAgent,
 	}, t.Ctx)
 	if err != nil {
+		if errors.Is(err, public_core_api.UnauthorizedError) {
+			return true, nil
+		}
+		if errors.Is(err, public_core_api.FetchMeError) {
+			return true, nil
+		}
 		return true, err
 	}
 
-	ctx, cancel := context.WithCancel(t.baseCtx)
-	connectionData := &SocketConnectionData{
-		user:   user,
-		ctx:    ctx,
-		cancel: cancel,
-	}
-	connectionData.pongedAt.Store(t.Clock.UTCTime())
-	if connectionData.user.GetBannedAt() == nil {
-		if !t.Args.RoomID.IsEmpty() {
-			connectionData.matchArgs = &MatchArgs{RoomID: t.Args.RoomID}
+	bannedAt := user.GetBannedAt()
+	if bannedAt != nil {
+		if t.Clock.UTCTime().After(*bannedAt) {
+			return true, nil
 		}
 	}
 
-	t.ConnectionData = connectionData
+	ctx, cancel := context.WithCancel(t.baseCtx)
+	playerID := base.GeneratePlayerID()
+	ctx = WithPlayerID(ctx, playerID)
+	ctx = WithUserID(ctx, user.GetID())
+	t.ClientData = &ClientSocketData{
+		PlayerID:   playerID,
+		User:       user,
+		Ctx:        ctx,
+		cancel:     cancel,
+		joinRoomID: &t.Args.JoinRoomID,
+	}
+	t.ClientData.pongedAt.Store(t.Clock.UTCTime())
+
 	return true, nil
 }

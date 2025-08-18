@@ -7,8 +7,11 @@
     },
     "profile": {
       "$ref": "user.json#"
+    },
+    "data": {
+      "$ref": "socketRoomPlayerData.json#"
     }
   },
-  "required": ["id", "profile"],
+  "required": ["id", "profile", "data"],
   "additionalProperties": false
 }

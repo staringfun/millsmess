@@ -1,0 +1,14 @@
+{
+  "title": "SocketRoomPlayerData",
+  "type": "object",
+  "properties": {
+    "isMicrophoneMuted": {
+      "type": "boolean"
+    },
+    "isVideoMuted": {
+      "type": "boolean"
+    }
+  },
+  "required": ["isMicrophoneMuted", "isVideoMuted"],
+  "additionalProperties": false
+}

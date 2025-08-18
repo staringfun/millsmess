@@ -1,0 +1,6 @@
+{
+  "title": "Points",
+  "type": "integer",
+  "goType": "int64",
+  "goEmptyValue": 0
+}

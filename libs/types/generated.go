@@ -7,6 +7,68 @@ package types
 
 import "time"
 
+type JoinResult string
+
+func (j JoinResult) String() string {
+	return string(j)
+}
+func (j JoinResult) IsEmpty() bool {
+	return j == ""
+}
+
+const (
+	JoinResultFull     JoinResult = "full"
+	JoinResultNotFound JoinResult = "not_found"
+)
+
+var AllJoinResult = []JoinResult{JoinResultFull, JoinResultNotFound}
+
+func (j JoinResult) IsValid() bool {
+	for _, jj := range AllJoinResult {
+		if jj == j {
+			return true
+		}
+	}
+	return false
+}
+
+type LeaveReason string
+
+func (l LeaveReason) String() string {
+	return string(l)
+}
+func (l LeaveReason) IsEmpty() bool {
+	return l == ""
+}
+
+const (
+	LeaveReasonKicked LeaveReason = "kicked"
+	LeaveReasonBanned LeaveReason = "banned"
+)
+
+var AllLeaveReason = []LeaveReason{LeaveReasonKicked, LeaveReasonBanned}
+
+func (l LeaveReason) IsValid() bool {
+	for _, ll := range AllLeaveReason {
+		if ll == l {
+			return true
+		}
+	}
+	return false
+}
+
+type MessageKey int
+
+func (m MessageKey) Int() int {
+	return int(m)
+}
+func (m MessageKey) IsEmpty() bool {
+	return m == 0
+}
+func (m MessageKey) IsValid() bool {
+	return m != 0
+}
+
 type Email string
 
 func (e Email) String() string {
@@ -17,6 +79,18 @@ func (e Email) IsEmpty() bool {
 }
 func (e Email) IsValid() bool {
 	return e != ""
+}
+
+type Points int64
+
+func (p Points) Int64() int64 {
+	return int64(p)
+}
+func (p Points) IsEmpty() bool {
+	return p == 0
+}
+func (p Points) IsValid() bool {
+	return p != 0
 }
 
 type UserID string
@@ -164,6 +238,8 @@ type User interface {
 	SetUsername(Username)
 	GetRole() UserRole
 	SetRole(UserRole)
+	GetPoints() Points
+	SetPoints(Points)
 	GetCreatedAt() time.Time
 	SetCreatedAt(time.Time)
 	GetBannedAt() *time.Time
@@ -173,43 +249,111 @@ type BaseUser struct {
 	ID        UserID     `json:"id,omitempty"`
 	Username  Username   `json:"username,omitempty"`
 	Role      UserRole   `json:"role,omitempty"`
+	Points    Points     `json:"points,omitempty"`
 	CreatedAt time.Time  `json:"createdAt,omitempty"`
 	BannedAt  *time.Time `json:"bannedAt,omitempty"`
 }
 
 func (u *BaseUser) GetID() UserID {
+	if u == nil {
+		var uu UserID
+		return uu
+	}
 	return u.ID
 }
-func (u *BaseUser) SetID(v UserID) {
-	u.ID = v
+func (u *BaseUser) SetID(uu UserID) {
+	if u == nil {
+		return
+	}
+	u.ID = uu
 }
 func (u *BaseUser) GetUsername() Username {
+	if u == nil {
+		var uu Username
+		return uu
+	}
 	return u.Username
 }
-func (u *BaseUser) SetUsername(v Username) {
-	u.Username = v
+func (u *BaseUser) SetUsername(uu Username) {
+	if u == nil {
+		return
+	}
+	u.Username = uu
 }
 func (u *BaseUser) GetRole() UserRole {
+	if u == nil {
+		var uu UserRole
+		return uu
+	}
 	return u.Role
 }
-func (u *BaseUser) SetRole(v UserRole) {
-	u.Role = v
+func (u *BaseUser) SetRole(uu UserRole) {
+	if u == nil {
+		return
+	}
+	u.Role = uu
+}
+func (u *BaseUser) GetPoints() Points {
+	if u == nil {
+		var uu Points
+		return uu
+	}
+	return u.Points
+}
+func (u *BaseUser) SetPoints(uu Points) {
+	if u == nil {
+		return
+	}
+	u.Points = uu
 }
 func (u *BaseUser) GetCreatedAt() time.Time {
+	if u == nil {
+		var uu time.Time
+		return uu
+	}
 	return u.CreatedAt
 }
-func (u *BaseUser) SetCreatedAt(v time.Time) {
-	u.CreatedAt = v
+func (u *BaseUser) SetCreatedAt(uu time.Time) {
+	if u == nil {
+		return
+	}
+	u.CreatedAt = uu
 }
 func (u *BaseUser) GetBannedAt() *time.Time {
+	if u == nil {
+		var uu *time.Time
+		return uu
+	}
 	return u.BannedAt
 }
-func (u *BaseUser) SetBannedAt(v *time.Time) {
-	u.BannedAt = v
+func (u *BaseUser) SetBannedAt(uu *time.Time) {
+	if u == nil {
+		return
+	}
+	u.BannedAt = uu
 }
 
 type UserGuest struct {
 	*BaseUser
+}
+
+func (u *UserGuest) IsValid() bool {
+	if u == nil {
+		return false
+	}
+	if !u.ID.IsValid() {
+		return false
+	}
+	if !u.Username.IsValid() {
+		return false
+	}
+	if !u.Role.IsValid() {
+		return false
+	}
+	if !u.Points.IsValid() {
+		return false
+	}
+	return true
 }
 
 type UserMember struct {
@@ -217,14 +361,80 @@ type UserMember struct {
 	*BaseUser
 }
 
+func (u *UserMember) IsValid() bool {
+	if u == nil {
+		return false
+	}
+	if !u.ID.IsValid() {
+		return false
+	}
+	if !u.Username.IsValid() {
+		return false
+	}
+	if !u.Role.IsValid() {
+		return false
+	}
+	if !u.Email.IsValid() {
+		return false
+	}
+	if !u.Points.IsValid() {
+		return false
+	}
+	return true
+}
+
 type UserModerator struct {
 	Email Email `json:"email,omitempty"`
 	*BaseUser
 }
 
+func (u *UserModerator) IsValid() bool {
+	if u == nil {
+		return false
+	}
+	if !u.ID.IsValid() {
+		return false
+	}
+	if !u.Username.IsValid() {
+		return false
+	}
+	if !u.Role.IsValid() {
+		return false
+	}
+	if !u.Email.IsValid() {
+		return false
+	}
+	if !u.Points.IsValid() {
+		return false
+	}
+	return true
+}
+
 type UserAdmin struct {
 	Email Email `json:"email,omitempty"`
 	*BaseUser
+}
+
+func (u *UserAdmin) IsValid() bool {
+	if u == nil {
+		return false
+	}
+	if !u.ID.IsValid() {
+		return false
+	}
+	if !u.Username.IsValid() {
+		return false
+	}
+	if !u.Role.IsValid() {
+		return false
+	}
+	if !u.Points.IsValid() {
+		return false
+	}
+	if !u.Email.IsValid() {
+		return false
+	}
+	return true
 }
 
 type RoomID string
@@ -246,15 +456,73 @@ type Room struct {
 	CreatedAt time.Time `json:"createdAt,omitempty"`
 }
 
+func (r *Room) IsValid() bool {
+	if r == nil {
+		return false
+	}
+	if !r.ID.IsValid() {
+		return false
+	}
+	if !r.OwnerID.IsValid() {
+		return false
+	}
+	return true
+}
+
+type SocketRoomPlayerData struct {
+	IsMicrophoneMuted bool `json:"isMicrophoneMuted,omitempty"`
+	IsVideoMuted      bool `json:"isVideoMuted,omitempty"`
+}
+
+func (s *SocketRoomPlayerData) IsValid() bool {
+	if s == nil {
+		return false
+	}
+	return true
+}
+
 type SocketRoomPlayer struct {
-	ID      PlayerID `json:"id,omitempty"`
-	Profile User     `json:"profile,omitempty"`
+	ID      PlayerID             `json:"id,omitempty"`
+	Profile User                 `json:"profile,omitempty"`
+	Data    SocketRoomPlayerData `json:"data,omitempty"`
+}
+
+func (s *SocketRoomPlayer) IsValid() bool {
+	if s == nil {
+		return false
+	}
+	if !s.ID.IsValid() {
+		return false
+	}
+	if !s.Data.IsValid() {
+		return false
+	}
+	return true
 }
 
 type SocketRoom struct {
 	ID      RoomID             `json:"id,omitempty"`
 	Profile *Room              `json:"profile,omitempty"`
+	Session SocketSession      `json:"session,omitempty"`
 	Players []SocketRoomPlayer `json:"players,omitempty"`
+}
+
+func (s *SocketRoom) IsValid() bool {
+	if s == nil {
+		return false
+	}
+	if !s.ID.IsValid() {
+		return false
+	}
+	if s.Profile != nil && !s.Profile.IsValid() {
+		return false
+	}
+	for _, ss := range s.Players {
+		if !ss.IsValid() {
+			return false
+		}
+	}
+	return true
 }
 
 type PlayerID string
@@ -273,6 +541,182 @@ type Player struct {
 	ID     PlayerID     `json:"id,omitempty"`
 	RoomID *RoomID      `json:"roomID,omitempty"`
 	Rooms  []SocketRoom `json:"rooms,omitempty"`
+}
+
+func (p *Player) IsValid() bool {
+	if p == nil {
+		return false
+	}
+	if !p.ID.IsValid() {
+		return false
+	}
+	if p.RoomID != nil && !p.RoomID.IsValid() {
+		return false
+	}
+	for _, pp := range p.Rooms {
+		if !pp.IsValid() {
+			return false
+		}
+	}
+	return true
+}
+
+type Game string
+
+func (g Game) String() string {
+	return string(g)
+}
+func (g Game) IsEmpty() bool {
+	return g == ""
+}
+func (g Game) IsValid() bool {
+	return g != ""
+}
+
+type SessionID string
+
+func (s SessionID) String() string {
+	return string(s)
+}
+func (s SessionID) IsEmpty() bool {
+	return s == ""
+}
+func (s SessionID) IsValid() bool {
+	return s != ""
+}
+
+type SocketSessionPlayer struct {
+	IsWin  bool   `json:"isWin,omitempty"`
+	Points Points `json:"points,omitempty"`
+	Data   any    `json:"data,omitempty"`
+}
+
+func (s *SocketSessionPlayer) IsValid() bool {
+	if s == nil {
+		return false
+	}
+	if !s.Points.IsValid() {
+		return false
+	}
+	return true
+}
+
+type SocketSession interface {
+	GetID() SessionID
+	SetID(SessionID)
+	GetGame() Game
+	SetGame(Game)
+	GetPlayers() map[UserID]SocketSessionPlayer
+	SetPlayers(map[UserID]SocketSessionPlayer)
+	GetData() any
+	SetData(any)
+	GetCreatedAt() time.Time
+	SetCreatedAt(time.Time)
+	GetStartedAt() *time.Time
+	SetStartedAt(*time.Time)
+	GetFinishedAt() *time.Time
+	SetFinishedAt(*time.Time)
+}
+type BaseSocketSession struct {
+	ID         SessionID                      `json:"id,omitempty"`
+	Game       Game                           `json:"game,omitempty"`
+	Players    map[UserID]SocketSessionPlayer `json:"players,omitempty"`
+	Data       any                            `json:"data,omitempty"`
+	CreatedAt  time.Time                      `json:"createdAt,omitempty"`
+	StartedAt  *time.Time                     `json:"startedAt,omitempty"`
+	FinishedAt *time.Time                     `json:"finishedAt,omitempty"`
+}
+
+func (s *BaseSocketSession) GetID() SessionID {
+	if s == nil {
+		var ss SessionID
+		return ss
+	}
+	return s.ID
+}
+func (s *BaseSocketSession) SetID(ss SessionID) {
+	if s == nil {
+		return
+	}
+	s.ID = ss
+}
+func (s *BaseSocketSession) GetGame() Game {
+	if s == nil {
+		var ss Game
+		return ss
+	}
+	return s.Game
+}
+func (s *BaseSocketSession) SetGame(ss Game) {
+	if s == nil {
+		return
+	}
+	s.Game = ss
+}
+func (s *BaseSocketSession) GetPlayers() map[UserID]SocketSessionPlayer {
+	if s == nil {
+		var ss map[UserID]SocketSessionPlayer
+		return ss
+	}
+	return s.Players
+}
+func (s *BaseSocketSession) SetPlayers(ss map[UserID]SocketSessionPlayer) {
+	if s == nil {
+		return
+	}
+	s.Players = ss
+}
+func (s *BaseSocketSession) GetData() any {
+	if s == nil {
+		var ss any
+		return ss
+	}
+	return s.Data
+}
+func (s *BaseSocketSession) SetData(ss any) {
+	if s == nil {
+		return
+	}
+	s.Data = ss
+}
+func (s *BaseSocketSession) GetCreatedAt() time.Time {
+	if s == nil {
+		var ss time.Time
+		return ss
+	}
+	return s.CreatedAt
+}
+func (s *BaseSocketSession) SetCreatedAt(ss time.Time) {
+	if s == nil {
+		return
+	}
+	s.CreatedAt = ss
+}
+func (s *BaseSocketSession) GetStartedAt() *time.Time {
+	if s == nil {
+		var ss *time.Time
+		return ss
+	}
+	return s.StartedAt
+}
+func (s *BaseSocketSession) SetStartedAt(ss *time.Time) {
+	if s == nil {
+		return
+	}
+	s.StartedAt = ss
+}
+func (s *BaseSocketSession) GetFinishedAt() *time.Time {
+	if s == nil {
+		var ss *time.Time
+		return ss
+	}
+	return s.FinishedAt
+}
+func (s *BaseSocketSession) SetFinishedAt(ss *time.Time) {
+	if s == nil {
+		return
+	}
+	s.FinishedAt = ss
 }
 
 type DisconnectReason string
@@ -303,12 +747,98 @@ type MV1Connect struct {
 	RoomID *RoomID `json:"roomID,omitempty"`
 }
 
+func (m *MV1Connect) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if m.RoomID != nil && !m.RoomID.IsValid() {
+		return false
+	}
+	return true
+}
+
 type MV1Disconnect struct {
 	Reason DisconnectReason `json:"reason,omitempty"`
 }
 
+func (m *MV1Disconnect) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if !m.Reason.IsValid() {
+		return false
+	}
+	return true
+}
+
 type MV1PlayerUpdate struct {
-	Player *Player `json:"player,omitempty"`
+	Player         *Player      `json:"player,omitempty"`
+	JoinResult     *JoinResult  `json:"joinResult,omitempty"`
+	JoinedRoom     *SocketRoom  `json:"joinedRoom,omitempty"`
+	LeftRoom       *RoomID      `json:"leftRoom,omitempty"`
+	LeftRoomReason *LeaveReason `json:"leftRoomReason,omitempty"`
+	Key            *MessageKey  `json:"key,omitempty"`
+}
+
+func (m *MV1PlayerUpdate) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if m.Player != nil && !m.Player.IsValid() {
+		return false
+	}
+	if m.JoinResult != nil && !m.JoinResult.IsValid() {
+		return false
+	}
+	if m.JoinedRoom != nil && !m.JoinedRoom.IsValid() {
+		return false
+	}
+	if m.LeftRoom != nil && !m.LeftRoom.IsValid() {
+		return false
+	}
+	if m.LeftRoomReason != nil && !m.LeftRoomReason.IsValid() {
+		return false
+	}
+	if m.Key != nil && !m.Key.IsValid() {
+		return false
+	}
+	return true
+}
+
+type MV1RoomJoin struct {
+	RoomID RoomID      `json:"roomID,omitempty"`
+	Key    *MessageKey `json:"key,omitempty"`
+}
+
+func (m *MV1RoomJoin) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if !m.RoomID.IsValid() {
+		return false
+	}
+	if m.Key != nil && !m.Key.IsValid() {
+		return false
+	}
+	return true
+}
+
+type MV1RoomLeave struct {
+	RoomID RoomID      `json:"roomID,omitempty"`
+	Key    *MessageKey `json:"key,omitempty"`
+}
+
+func (m *MV1RoomLeave) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if !m.RoomID.IsValid() {
+		return false
+	}
+	if m.Key != nil && !m.Key.IsValid() {
+		return false
+	}
+	return true
 }
 
 type SocketMessageTypeCommand string
@@ -321,10 +851,12 @@ func (s SocketMessageTypeCommand) IsEmpty() bool {
 }
 
 const (
-	SocketMessageTypeCommandV1Connect SocketMessageTypeCommand = "v1:connect"
+	SocketMessageTypeCommandV1RoomLeave SocketMessageTypeCommand = "v1:room.leave"
+	SocketMessageTypeCommandV1RoomJoin  SocketMessageTypeCommand = "v1:room.join"
+	SocketMessageTypeCommandV1Connect   SocketMessageTypeCommand = "v1:connect"
 )
 
-var AllSocketMessageTypeCommand = []SocketMessageTypeCommand{SocketMessageTypeCommandV1Connect}
+var AllSocketMessageTypeCommand = []SocketMessageTypeCommand{SocketMessageTypeCommandV1RoomLeave, SocketMessageTypeCommandV1RoomJoin, SocketMessageTypeCommandV1Connect}
 
 func (s SocketMessageTypeCommand) IsValid() bool {
 	for _, ss := range AllSocketMessageTypeCommand {

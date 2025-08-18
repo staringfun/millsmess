@@ -10,25 +10,40 @@ import (
 	"github.com/staringfun/millsmess/libs/internal-core-api"
 )
 
-type Socket struct {
-	*base.Base
-	Preconnect   *Preconnect
-	CoreInternal *internal_core_api.InternalCoreAPI
+type Config struct {
+	MaxEPS float64 `json:"maxEPS" yaml:"maxEPS" env:"MAX_EPS" default:"30"`
+	base.Config
 }
 
-func NewSocket() *Socket {
-	b := &base.Base{
-		Clock:         &base.DefaultClock{},
-		MemoryStorage: nil,
-		Ctx:           context.Background(),
-	}
+type Socket struct {
+	*base.Base
+	CoreInternal *internal_core_api.InternalCoreAPI
+
+	Emitter      Emitter
+	Broadcasters *Broadcasters
+
+	Preconnect *Preconnect
+	Connect    *Connect
+}
+
+func NewSocket(config Config, ctx context.Context) *Socket {
+	b := base.NewBase("socket", config.Config, ctx)
 	coreInternal := &internal_core_api.InternalCoreAPI{}
+	emitter := &DefaultEmitter{}
 	return &Socket{
 		Base:         b,
 		CoreInternal: coreInternal,
+		Emitter:      emitter,
+		Broadcasters: NewBroadcasters(),
 		Preconnect: &Preconnect{
 			Base:         b,
 			CoreInternal: coreInternal,
+		},
+		Connect: &Connect{
+			Base:     b,
+			Config:   config,
+			Emitter:  emitter,
+			Graceful: b.Graceful,
 		},
 	}
 }

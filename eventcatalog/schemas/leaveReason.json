@@ -1,0 +1,5 @@
+{
+  "title": "LeaveReason",
+  "type": "string",
+  "enum": ["kicked", "banned"]
+}
