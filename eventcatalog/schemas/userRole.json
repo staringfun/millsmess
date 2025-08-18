@@ -1,0 +1,5 @@
+{
+  "title": "UserRole",
+  "type": "string",
+  "enum": ["guest", "member", "moderator", "admin"]
+}

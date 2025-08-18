@@ -1,0 +1,29 @@
+{
+  "title": "UserMember",
+  "type": "object",
+  "goImplements": "User",
+  "properties": {
+    "id": {
+      "$ref": "userID.json#"
+    },
+    "username": {
+      "$ref": "username.json#"
+    },
+    "role": {
+      "$ref": "userRole.json#"
+    },
+    "email": {
+      "$ref": "email.json#"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "bannedAt": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["id", "username", "role", "email", "createdAt"],
+  "additionalProperties": false
+}

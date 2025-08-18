@@ -1,0 +1,26 @@
+---
+id: Client
+name: Client
+version: 0.0.0
+summary: |
+  The Client service delivers platform-specific SDKs and manages the developer-facing API surface, enabling external applications to seamlessly interact with the Mills Mess Engine.
+receives:
+  - id: PlayerUpdate
+    version: "1"
+  - id: Disconnect
+    version: "1"
+sends:
+  - id: Connect
+    version: "1"
+---
+
+## Overview
+
+The Client service is the outward-facing integration layer of the platform.
+It provides and maintains SDKs (Software Development Kits) for supported platforms such as JavaScript, iOS, Android, or Unity, offering a consistent and simplified developer experience.
+These SDKs encapsulate common workflows—authentication, session management, real-time messaging—so that application developers can focus on building features rather than managing infrastructure or protocol-level details.
+
+The service acts as a wrapper around other internal subdomains (like Real-Time Comms or Identity & Analytics), abstracting low-level mechanics such as token exchange, WebSocket initialization, and error handling.
+It may also manage versioning, platform-specific behaviors, and compatibility with the broader engine.
+
+<NodeGraph />

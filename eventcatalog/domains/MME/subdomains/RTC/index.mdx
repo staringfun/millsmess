@@ -1,0 +1,21 @@
+---
+id: RTC
+name: Real-Time Comms
+version: 0.0.0
+summary: |
+  Provides low-latency, bidirectional communication between clients and backend services using WebSockets.
+services:
+    - id: Socket
+      version: 0.0.0
+entities:
+    - id: Player
+      version: 0.0.0
+---
+
+## Overview
+
+The Real-Time Comms subdomain manages WebSocket connections and real-time messaging between users and services.
+It supports event broadcasting (e.g., game state updates, chat), presence tracking, and pub/sub mechanics.
+This layer ensures that all connected clients receive timely and consistent updates, maintaining the responsiveness required for live gameplay or collaboration.
+
+<NodeGraph />

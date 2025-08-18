@@ -1,0 +1,10 @@
+{
+  "title": "MV1Connect",
+  "type": "object",
+  "properties": {
+    "roomID": {
+      "$ref": "roomID.json#"
+    }
+  },
+  "additionalProperties": false
+}

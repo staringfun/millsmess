@@ -1,0 +1,11 @@
+{
+  "title": "MV1Disconnect",
+  "type": "object",
+  "properties": {
+    "reason": {
+      "$ref": "disconnectReason.json#"
+    }
+  },
+  "required": ["reason"],
+  "additionalProperties": false
+}

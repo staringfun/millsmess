@@ -1,0 +1,31 @@
+---
+id: User
+name: User
+interface: true
+version: 0.0.0
+summary: Represents all user data.
+properties:
+  - name: id
+    type: UserID
+    required: true
+    description: Unique identifier for the user
+  - name: username
+    type: Username
+    required: true
+    description: Name for the user
+  - name: role
+    type: UserRole
+    required: true
+    description: Role of the user
+  - name: bannedAt
+    type: Date
+    description: Date when user was banned, empty if not banned
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<SchemaViewer file="../../../../schemas/user.json" />

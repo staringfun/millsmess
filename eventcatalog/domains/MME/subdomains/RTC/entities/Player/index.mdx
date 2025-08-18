@@ -1,0 +1,24 @@
+---
+id: Player
+name: Player
+version: 0.0.0
+summary: Represents all player data.
+properties:
+  - name: id
+    type: PlayerID
+    required: true
+    description: Unique identifier for the player
+  - name: profile
+    type: User
+    required: true
+    description: Player profile
+    references: User
+    relationType: belongsTo
+    referencesIdentifier: id
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />

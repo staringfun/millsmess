@@ -1,0 +1,10 @@
+{
+  "title": "MV1PlayerUpdate",
+  "type": "object",
+  "properties": {
+    "player": {
+      "$ref": "player.json#"
+    }
+  },
+  "additionalProperties": false
+}

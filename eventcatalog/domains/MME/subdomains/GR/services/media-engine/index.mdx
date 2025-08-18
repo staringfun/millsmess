@@ -1,0 +1,23 @@
+---
+id: MediaEngine
+name: Media-Engine
+version: 0.0.0
+summary: |
+  The media-engine service is responsible for running and managing live game sessions, including authoritative game logic, real-time state synchronization, and media signaling (e.g., WebRTC). It serves as the core runtime of interactive sessions within the Mills Mess Engine.
+sends:
+  - id: SessionUpdate
+    version: "1"
+---
+
+## Overview
+
+The media-engine service is the authoritative backend for executing and maintaining live multiplayer sessions.
+It handles the full lifecycle of a game session: from creation and user participation to state management and teardown.
+Each game session is managed as a distinct runtime instance, capable of processing user actions, enforcing game rules, and broadcasting state updates in real time.
+
+In addition to game logic, the service supports real-time media features such as WebRTC signaling for audio/video or data channels, where applicable.
+It ensures deterministic behavior, consistency across clients, and tight integration with other services (such as Real-Time Comms for broadcasting and Identity for user validation).
+
+The media-engine is typically designed to be low-latency and horizontally scalable, allowing for concurrent execution of multiple isolated game sessions.
+
+<NodeGraph />

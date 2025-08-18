@@ -1,0 +1,62 @@
+{
+  "title": "RootSchema",
+  "$defs": {
+    "Email": {
+      "$ref": "email.json#"
+    },
+    "UserID": {
+      "$ref": "userID.json#"
+    },
+    "Username": {
+      "$ref": "username.json#"
+    },
+    "UserRole": {
+      "$ref": "userRole.json#"
+    },
+    "User": {
+      "$ref": "user.json#"
+    },
+    "UserGuest": {
+      "$ref": "userGuest.json#"
+    },
+    "UserMember": {
+      "$ref": "userMember.json#"
+    },
+    "UserModerator": {
+      "$ref": "userModerator.json#"
+    },
+    "UserAdmin": {
+      "$ref": "userAdmin.json#"
+    },
+    "RoomID": {
+      "$ref": "roomID.json#"
+    },
+    "Room": {
+      "$ref": "room.json#"
+    },
+    "SocketRoomPlayer": {
+      "$ref": "socketRoomPlayer.json#"
+    },
+    "SocketRoom": {
+      "$ref": "socketRoom.json#"
+    },
+    "PlayerID": {
+      "$ref": "playerID.json#"
+    },
+    "Player": {
+      "$ref": "player.json#"
+    },
+    "DisconnectReason": {
+      "$ref": "disconnectReason.json#"
+    },
+    "MV1Connect": {
+      "$ref": "mv1Connect.json#"
+    },
+    "MV1Disconnect": {
+      "$ref": "mv1Disconnect.json#"
+    },
+    "MV1PlayerUpdate": {
+      "$ref": "mv1PlayerUpdate.json#"
+    }
+  }
+}

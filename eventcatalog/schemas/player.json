@@ -1,0 +1,20 @@
+{
+  "title": "Player",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "playerID.json#"
+    },
+    "roomID": {
+      "$ref": "roomID.json#"
+    },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "$ref": "socketRoom.json#"
+      }
+    }
+  },
+  "required": ["id", "rooms"],
+  "additionalProperties": false
+}

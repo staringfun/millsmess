@@ -1,0 +1,28 @@
+---
+id: Core
+name: Core
+version: 0.0.0
+summary: |
+  The core service manages user accounts, session authentication, and system-level analytics.
+  It acts as the central authority for identity and tracking within the Mills Mess Engine.
+receives:
+  - id: SessionUpdate
+    version: "1"
+sends:
+  - id: ProfilesUpdate
+    version: "1"
+---
+
+## Overview
+
+The core service is the foundational component of the Identity & Analytics subdomain.
+It is responsible for user identity, including registration, authentication, and profile management.
+It also issues and validates session tokens that are used across all other services in the platform.
+
+In addition to identity management, the core service is responsible for collecting, storing, and exposing usage analytics.
+This includes tracking user behavior, session participation, and system-level metrics that support monitoring, reporting, and optimization.
+
+By owning both identity and analytics, the core service ensures that each user's actions can be securely authenticated and meaningfully analyzed.
+It provides a single source of truth for user data and a reliable stream of insights into platform usage.
+
+<NodeGraph />

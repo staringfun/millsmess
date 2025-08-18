@@ -1,0 +1,26 @@
+{
+  "title": "User",
+  "type": "object",
+  "goInterface": true,
+  "properties": {
+    "id": {
+      "$ref": "./userID.json#"
+    },
+    "username": {
+      "$ref": "username.json#"
+    },
+    "role": {
+      "$ref": "userRole.json#"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "bannedAt": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["id", "username", "role", "createdAt"],
+  "additionalProperties": false
+}

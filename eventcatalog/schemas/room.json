@@ -1,0 +1,21 @@
+{
+  "title": "Room",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "roomID.json#"
+    },
+    "ownerID": {
+      "$ref": "userID.json#"
+    },
+    "owner": {
+      "$ref": "user.json#"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": ["id", "ownerID", "owner", "createdAt"],
+  "additionalProperties": false
+}

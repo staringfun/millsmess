@@ -1,0 +1,14 @@
+{
+  "title": "SocketRoomPlayer",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "playerID.json#"
+    },
+    "profile": {
+      "$ref": "user.json#"
+    }
+  },
+  "required": ["id", "profile"],
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+---
+id: WS
+name: WebSocket
+protocols:
+  - ws
+version: 0.0.0
+summary: |
+  The WebSocket channel is a single, multiplexed real-time messaging stream used by all connected clients to send and receive events through the Mills Mess Engine.
+address: api.com/ws
+---
+
+### Overview
+
+The WebSocket channel is a global, bidirectional communication layer that operates over a single persistent WebSocket connection per client.
+Rather than segmenting communication into multiple pub/sub channels, all real-time traffic—such as game events, session updates, and presence information—is multiplexed over this one shared channel.
+
+The channel is secured via authentication tokens and handles message delivery, connection lifecycle, and protocol-level features like ping/pong, reconnection, and error reporting.
+
+<ChannelInformation />

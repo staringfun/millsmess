@@ -1,0 +1,20 @@
+{
+  "title": "SocketRoom",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "roomID.json#"
+    },
+    "profile": {
+      "$ref": "room.json#"
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "$ref": "socketRoomPlayer.json#"
+      }
+    }
+  },
+  "required": ["id", "players"],
+  "additionalProperties": false
+}

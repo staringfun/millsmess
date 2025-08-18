@@ -1,0 +1,31 @@
+---
+id: Socket
+name: Socket
+version: 0.0.0
+summary: |
+  The socket service manages real-time WebSocket connections, message routing, and presence tracking for all connected clients. It enables low-latency, bidirectional communication essential for live multiplayer sessions.
+receives:
+  - id: SessionUpdate
+    version: "1"
+  - id: ProfilesUpdate
+    version: "1"
+  - id: Connect
+    version: "1"
+sends:
+  - id: PlayerUpdate
+    version: "1"
+  - id: Disconnect
+    version: "1"
+---
+
+## Overview
+
+The socket service is the core transport layer of the Real-Time Comms subdomain.
+It establishes and maintains persistent WebSocket connections between clients and the backend, allowing for fast and efficient exchange of messages and events.
+
+Once connected, clients can subscribe to session updates, send gameplay events, receive broadcasts, and track user presence in real time.
+The socket service ensures message delivery, enforces channel/session boundaries, and handles connection reliability through features like reconnection, authentication, and message buffering.
+
+This service also plays a key role in pub/sub messaging, routing events between clients and other backend services (like the game session engine), and supporting presence indicators such as online/offline status or typing indicators.
+
+<NodeGraph />

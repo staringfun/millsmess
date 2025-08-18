@@ -1,0 +1,20 @@
+---
+id: GR
+name: Game Runtime
+version: 0.0.0
+summary: |
+  Manages the lifecycle and orchestration of multiplayer game sessions, including state, rules, and media handling.
+services:
+    - id: MediaEngine
+      version: 0.0.0
+---
+
+## Overview
+
+The Game Runtime subdomain is the heart of gameplay logic.
+It’s responsible for creating, running, and terminating game sessions.
+Each session has its own state, participants, and game rules.
+Depending on the product, this could also handle media streams (e.g., WebRTC) and server-authoritative decisions.
+It ensures synchronization between players and works closely with Real-Time Comms to distribute live updates.
+
+<NodeGraph />

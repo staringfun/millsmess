@@ -4,14 +4,21 @@
 
 package types
 
-type SocketEvent string
+type SocketEventV1PlayerUpdateData struct {
+	Player *Player `json:"player,omitempty"`
+}
+
+type SocketDisconnectReason string
 
 const (
-	SocketEventConnect    = SocketEvent("connect")
-	SocketEventDisconnect = SocketEvent("connect")
+	SocketDisconnectReasonBan = SocketDisconnectReason("ban")
 )
 
-type SocketData any
+type SocketV1DisconnectDTO struct {
+	Reason SocketDisconnectReason `json:"reason"`
+}
+
+type SocketData = any
 
 type SocketDataConnect struct {
 }
