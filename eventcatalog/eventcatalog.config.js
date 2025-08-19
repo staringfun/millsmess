@@ -1,7 +1,7 @@
 /** @type {import('@eventcatalog/core/bin/eventcatalog.config').Config} */
 export default {
   title: 'Mills Mess',
-  tagline: 'This internal platform provides a comprehensive view of our event-driven architecture across all systems. Use this portal to discover existing domains, explore services and their dependencies, and understand the message contracts that connect our infrastructure',
+  tagline: 'Licensed under the Mills Mess License Agreement. Free for non-commercial use or first earned $500K, then 5% and 3% after $2M. See LICENSE.md in the root of this repository',
   organizationName: 'Staring, LLC',
   homepageLink: 'https://eventcatalog.dev/',
   editUrl: 'https://github.com/staringfun/millsmess',
