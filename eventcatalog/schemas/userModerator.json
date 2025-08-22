@@ -22,11 +22,17 @@
       "type": "string",
       "format": "date"
     },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "$ref": "room.json#"
+      }
+    },
     "bannedAt": {
       "type": "string",
       "format": "date"
     }
   },
-  "required": ["id", "username", "role", "points", "email", "createdAt"],
+  "required": ["id", "username", "role", "rooms", "points", "email", "createdAt"],
   "additionalProperties": false
 }

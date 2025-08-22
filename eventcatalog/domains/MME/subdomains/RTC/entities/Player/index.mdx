@@ -8,12 +8,18 @@ properties:
     type: PlayerID
     required: true
     description: Unique identifier for the player
-  - name: profile
-    type: User
+  - name: roomID
+    type: RoomID
+    description: Player current room
+    references: SocketRoom
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: rooms
+    type: SocketRoom[]
     required: true
-    description: Player profile
-    references: User
-    relationType: belongsTo
+    description: Player current rooms
+    references: SocketRoom
+    relationType: hasMany
     referencesIdentifier: id
 ---
 
@@ -22,3 +28,5 @@ properties:
 ### Entity Properties
 
 <EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/player.json" />

@@ -18,8 +18,9 @@ type ClientSocketData struct {
 	Client   ClientSocket
 	User     types.User
 
-	pongedAt   atomic.Value
-	joinRoomID *types.RoomID
+	pongedAt atomic.Value
+
+	joinArgs *types.MV1RoomJoin
 
 	eps *ConnectionEPS
 

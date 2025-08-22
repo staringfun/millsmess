@@ -7,10 +7,12 @@ package base
 import (
 	"context"
 	"fmt"
+	"github.com/staringfun/millsmess/libs/types"
 	"os"
 )
 
 type Config struct {
+	Region       types.Region `json:"region" yaml:"region" env:"REGION"`
 	InstanceID   string       `json:"instanceID" yaml:"instanceID" env:"INSTANCE_ID"`
 	LoggerConfig LoggerConfig `json:"logger" yaml:"logger"`
 }
@@ -33,6 +35,8 @@ func NewBase(name string, config Config, ctx context.Context) *Base {
 	if config.InstanceID == "" {
 		config.InstanceID = fmt.Sprintf("%s-%s", name, GenerateRandomString(8))
 	}
+	ctx = WithInstanceID(config.InstanceID, ctx)
+	ctx = WithServiceName(name, ctx)
 	ctx = NewLogger(config.LoggerConfig).With().
 		Str("service", name).
 		Str("instanceID", config.InstanceID).

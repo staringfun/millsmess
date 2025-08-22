@@ -1,0 +1,47 @@
+---
+id: Session
+name: Session
+interface: true
+version: 0.0.0
+summary: Represents all session data.
+properties:
+  - name: id
+    type: SessionID
+    required: true
+    description: Unique identifier for the session
+  - name: roomID
+    type: roomID
+    description: Room where session happened, empty for matchmaking sessions
+    references: Room
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: game
+    type: Game
+    required: true
+    description: Game of the session
+  - name: players
+    type: "[]SessionPlayer"
+    required: true
+    description: Players of the session
+  - name: createdAt
+    type: string
+    format: date
+    required: true
+    description: Date when session was created
+  - name: startedAt
+    type: string
+    format: date-time
+    description: Date when session was started
+  - name: finishedAt
+    type: string
+    format: date-time
+    description: Date when session was finished
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/session.json" />

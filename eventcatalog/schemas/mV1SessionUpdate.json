@@ -1,0 +1,15 @@
+{
+  "title": "MV1SessionUpdate",
+  "type": "object",
+  "properties": {
+    "session": {
+      "$ref": "socketSession.json#"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["session", "timestamp"],
+  "additionalProperties": false
+}

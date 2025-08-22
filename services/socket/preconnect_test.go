@@ -5,7 +5,6 @@
 package socket
 
 import (
-	"context"
 	"github.com/staringfun/millsmess/libs/base"
 	"github.com/staringfun/millsmess/libs/internal-core-api"
 	"github.com/staringfun/millsmess/libs/public-core-api"
@@ -18,25 +17,17 @@ import (
 )
 
 func TestPreconnectTxNoAuth(t *testing.T) {
-	baseCtx := context.Background()
-	coreEngine := &test_utils.MockedCoreEngine{}
 	var resHeaders map[string]string
-	tx := &TxPreconnect{
-		BaseTx: &base.BaseTx{
+	coreEngine := &test_utils.MockedCoreEngine{}
+	preconnect := &Preconnect{
+		Base: &base.Base{
 			Ctx: t.Context(),
 		},
-		Args: PreconnectArgs{
-			Token:         "token",
-			XForwardedFor: "0.0.0.0",
-			UserAgent:     "chrome",
-			JoinRoomID:    "r-id",
-		},
 		CoreInternal: &internal_core_api.InternalCoreAPI{
-			PublicCoreAPI: public_core_api.PublicCoreAPI{
+			PublicCoreAPI: &public_core_api.PublicCoreAPI{
 				Engine: coreEngine,
 			},
 		},
-		baseCtx: baseCtx,
 	}
 	coreEngine.On("Fetch", mock.Anything, mock.Anything, mock.Anything, mock.Anything, t.Context()).
 		Run(func(args mock.Arguments) {
@@ -46,160 +37,141 @@ func TestPreconnectTxNoAuth(t *testing.T) {
 		}).
 		Return(200, resHeaders, nil)
 
-	defer tx.DeferPrepare()
-	assert.Nil(t, tx.Prepare())
+	clientData, err := preconnect.Run(PreconnectArgs{
+		Token:         "token",
+		XForwardedFor: "0.0.0.0",
+		UserAgent:     "chrome",
+		JoinArgs: &types.MV1RoomJoin{
+			RoomID: "r-id",
+		},
+	}, t.Context())
 
-	finished, err := tx.LoadData()
-	assert.True(t, finished)
+	assert.Nil(t, clientData)
 	assert.Nil(t, err)
-
-	assert.Nil(t, tx.ClientData)
 }
 
 func TestPreconnectTxSuccessUserAgentXForwardedForCookie(t *testing.T) {
 	clock := &test_utils.MockedClock{
 		Value: time.Now(),
 	}
-	baseCtx := context.Background()
-	coreEngine := &test_utils.MockedCoreEngine{}
 	user := &types.BaseUser{
 		ID:       "u-id",
 		Username: "u-username",
 		Role:     types.UserRoleGuest,
-		BannedAt: nil,
 	}
-	var resHeaders map[string]string
-	tx := &TxPreconnect{
-		BaseTx: &base.BaseTx{
-			Clock: clock,
+	coreEngine := &test_utils.MockedCoreEngine{}
+	preconnect := &Preconnect{
+		Base: &base.Base{
 			Ctx:   t.Context(),
-		},
-		Args: PreconnectArgs{
-			Token:         "",
-			Cookie:        "wefew",
-			XForwardedFor: "0.0.0.0",
-			UserAgent:     "chrome",
-			JoinRoomID:    "r-id",
+			Clock: clock,
 		},
 		CoreInternal: &internal_core_api.InternalCoreAPI{
-			PublicCoreAPI: public_core_api.PublicCoreAPI{
+			PublicCoreAPI: &public_core_api.PublicCoreAPI{
 				Engine: coreEngine,
 			},
 		},
-		baseCtx: baseCtx,
 	}
+	var resHeaders map[string]string
 	coreEngine.On("Fetch", mock.Anything, mock.Anything, mock.Anything, mock.Anything, t.Context()).
 		Run(func(args mock.Arguments) {
 			headers := args.Get(2).(map[string]string)
 			assert.NotEmpty(t, headers["Cookie"])
 			assert.Empty(t, headers["Authorization"])
-			assert.Equal(t, tx.Args.XForwardedFor, headers["X-Forwarded-For"])
-			assert.Equal(t, tx.Args.UserAgent, headers["User-Agent"])
 
 			data := args.Get(3).(*public_core_api.FetchMeResponse)
 			data.Data = user
 		}).
 		Return(200, resHeaders, nil)
 
-	defer tx.DeferPrepare()
-	assert.Nil(t, tx.Prepare())
-
-	finished, err := tx.LoadData()
-	assert.True(t, finished)
+	clientData, err := preconnect.Run(PreconnectArgs{
+		Token:         "",
+		Cookie:        "wefew",
+		XForwardedFor: "0.0.0.0",
+		UserAgent:     "chrome",
+		JoinArgs: &types.MV1RoomJoin{
+			RoomID: "r-id",
+		},
+	}, t.Context())
 	assert.Nil(t, err)
 
-	assert.NotNil(t, tx.ClientData)
+	assert.NotNil(t, clientData)
 
-	assert.Equal(t, user, tx.ClientData.User)
-	assert.NotEmpty(t, tx.ClientData.PlayerID)
+	assert.Equal(t, user, clientData.User)
+	assert.NotEmpty(t, clientData.PlayerID)
 }
 
 func TestPreconnectTxSuccessMatchArgsCookie(t *testing.T) {
 	clock := &test_utils.MockedClock{
 		Value: time.Now(),
 	}
-	baseCtx := context.Background()
-	coreEngine := &test_utils.MockedCoreEngine{}
 	user := &types.BaseUser{
 		ID:       "u-id",
 		Username: "u-username",
 		Role:     types.UserRoleGuest,
-		BannedAt: nil,
 	}
-	var resHeaders map[string]string
-	tx := &TxPreconnect{
-		BaseTx: &base.BaseTx{
-			Clock: clock,
+	coreEngine := &test_utils.MockedCoreEngine{}
+	preconnect := &Preconnect{
+		Base: &base.Base{
 			Ctx:   t.Context(),
-		},
-		Args: PreconnectArgs{
-			Token:         "",
-			Cookie:        "wefew",
-			XForwardedFor: "0.0.0.0",
-			UserAgent:     "chrome",
-			JoinRoomID:    "r-id",
+			Clock: clock,
 		},
 		CoreInternal: &internal_core_api.InternalCoreAPI{
-			PublicCoreAPI: public_core_api.PublicCoreAPI{
+			PublicCoreAPI: &public_core_api.PublicCoreAPI{
 				Engine: coreEngine,
 			},
 		},
-		baseCtx: baseCtx,
 	}
+	var resHeaders map[string]string
 	coreEngine.On("Fetch", mock.Anything, mock.Anything, mock.Anything, mock.Anything, t.Context()).
 		Run(func(args mock.Arguments) {
 			data := args.Get(3).(*public_core_api.FetchMeResponse)
 			data.Data = user
 		}).
 		Return(200, resHeaders, nil)
-
-	defer tx.DeferPrepare()
-	assert.Nil(t, tx.Prepare())
-
-	finished, err := tx.LoadData()
-	assert.True(t, finished)
+	args := PreconnectArgs{
+		Token:         "",
+		Cookie:        "wefew",
+		XForwardedFor: "0.0.0.0",
+		UserAgent:     "chrome",
+		JoinArgs: &types.MV1RoomJoin{
+			RoomID: "r-id",
+		},
+	}
+	clientData, err := preconnect.Run(args, t.Context())
 	assert.Nil(t, err)
 
-	assert.NotNil(t, tx.ClientData)
+	assert.NotNil(t, clientData)
 
-	assert.Equal(t, user, tx.ClientData.User)
-	assert.NotEmpty(t, tx.ClientData.PlayerID)
+	assert.Equal(t, user, clientData.User)
+	assert.NotEmpty(t, clientData.PlayerID)
 
-	assert.NotNil(t, tx.ClientData.joinRoomID)
-	assert.Equal(t, tx.Args.JoinRoomID, *tx.ClientData.joinRoomID)
+	assert.NotNil(t, clientData.joinArgs)
+	assert.Equal(t, args.JoinArgs.RoomID, clientData.joinArgs.RoomID)
 }
 
 func TestPreconnectTxBannedMatchArgsToken(t *testing.T) {
 	clock := &test_utils.MockedClock{
 		Value: time.Now(),
 	}
-	baseCtx := context.Background()
-	coreEngine := &test_utils.MockedCoreEngine{}
 	user := &types.BaseUser{
 		ID:       "u-id",
 		Username: "u-username",
 		Role:     types.UserRoleGuest,
 		BannedAt: &time.Time{},
 	}
-	var resHeaders map[string]string
-	tx := &TxPreconnect{
-		BaseTx: &base.BaseTx{
-			Clock: clock,
+	coreEngine := &test_utils.MockedCoreEngine{}
+	preconnect := &Preconnect{
+		Base: &base.Base{
 			Ctx:   t.Context(),
-		},
-		Args: PreconnectArgs{
-			Token:         "token",
-			XForwardedFor: "0.0.0.0",
-			UserAgent:     "chrome",
-			JoinRoomID:    "r-id",
+			Clock: clock,
 		},
 		CoreInternal: &internal_core_api.InternalCoreAPI{
-			PublicCoreAPI: public_core_api.PublicCoreAPI{
+			PublicCoreAPI: &public_core_api.PublicCoreAPI{
 				Engine: coreEngine,
 			},
 		},
-		baseCtx: baseCtx,
 	}
+	var resHeaders map[string]string
 	coreEngine.On("Fetch", mock.Anything, mock.Anything, mock.Anything, mock.Anything, t.Context()).
 		Run(func(args mock.Arguments) {
 			headers := args.Get(2).(map[string]string)
@@ -211,14 +183,15 @@ func TestPreconnectTxBannedMatchArgsToken(t *testing.T) {
 		}).
 		Return(200, resHeaders, nil)
 
-	defer tx.DeferPrepare()
-	assert.Nil(t, tx.Prepare())
-
-	finished, err := tx.LoadData()
-	assert.True(t, finished)
+	args := PreconnectArgs{
+		Token:         "token",
+		XForwardedFor: "0.0.0.0",
+		UserAgent:     "chrome",
+	}
+	clientData, err := preconnect.Run(args, t.Context())
 	assert.Nil(t, err)
 
-	assert.Nil(t, tx.ClientData)
+	assert.Nil(t, clientData)
 }
 
 func TestPreconnectTxBannedBeforeMatchArgsToken(t *testing.T) {
@@ -227,33 +200,25 @@ func TestPreconnectTxBannedBeforeMatchArgsToken(t *testing.T) {
 	}
 	bannedAt := time.Now()
 	bannedAt.Add(time.Hour * 48)
-	baseCtx := context.Background()
-	coreEngine := &test_utils.MockedCoreEngine{}
 	user := &types.BaseUser{
 		ID:       "u-id",
 		Username: "u-username",
 		Role:     types.UserRoleGuest,
 		BannedAt: &bannedAt,
 	}
-	var resHeaders map[string]string
-	tx := &TxPreconnect{
-		BaseTx: &base.BaseTx{
-			Clock: clock,
+	coreEngine := &test_utils.MockedCoreEngine{}
+	preconnect := &Preconnect{
+		Base: &base.Base{
 			Ctx:   t.Context(),
-		},
-		Args: PreconnectArgs{
-			Token:         "token",
-			XForwardedFor: "0.0.0.0",
-			UserAgent:     "chrome",
-			JoinRoomID:    "r-id",
+			Clock: clock,
 		},
 		CoreInternal: &internal_core_api.InternalCoreAPI{
-			PublicCoreAPI: public_core_api.PublicCoreAPI{
+			PublicCoreAPI: &public_core_api.PublicCoreAPI{
 				Engine: coreEngine,
 			},
 		},
-		baseCtx: baseCtx,
 	}
+	var resHeaders map[string]string
 	coreEngine.On("Fetch", mock.Anything, mock.Anything, mock.Anything, mock.Anything, t.Context()).
 		Run(func(args mock.Arguments) {
 			headers := args.Get(2).(map[string]string)
@@ -265,16 +230,20 @@ func TestPreconnectTxBannedBeforeMatchArgsToken(t *testing.T) {
 		}).
 		Return(200, resHeaders, nil)
 
-	defer tx.DeferPrepare()
-	assert.Nil(t, tx.Prepare())
-
-	finished, err := tx.LoadData()
-	assert.True(t, finished)
+	args := PreconnectArgs{
+		Token:         "token",
+		XForwardedFor: "0.0.0.0",
+		UserAgent:     "chrome",
+		JoinArgs: &types.MV1RoomJoin{
+			RoomID: "r-id",
+		},
+	}
+	clientData, err := preconnect.Run(args, t.Context())
 	assert.Nil(t, err)
 
-	assert.NotNil(t, tx.ClientData)
+	assert.NotNil(t, clientData)
 
-	assert.Equal(t, user, tx.ClientData.User)
+	assert.Equal(t, user, clientData.User)
 
-	assert.Equal(t, &tx.Args.JoinRoomID, tx.ClientData.joinRoomID)
+	assert.Equal(t, clientData.joinArgs.RoomID, args.JoinArgs.RoomID)
 }

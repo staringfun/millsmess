@@ -6,6 +6,7 @@ go 1.24.4
 
 use (
 	libs/base
+	libs/gcloud-pubsub-engine
 	libs/internal-core-api
 	libs/public-core-api
 	libs/test-utils

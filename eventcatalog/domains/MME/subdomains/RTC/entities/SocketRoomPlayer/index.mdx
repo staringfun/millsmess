@@ -1,0 +1,30 @@
+---
+id: SocketRoomPlayer
+name: SocketRoomPlayer
+version: 0.0.0
+summary: Represents all socket room player data.
+properties:
+  - name: id
+    type: PlayerID
+    required: true
+    description: Unique identifier for the player
+  - name: profile
+    type: User
+    required: true
+    description: Player current user profile
+    references: User
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: data
+    type: SocketRoomPlayerData
+    required: true
+    description: Player current data
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/socketRoomPlayer.json" />

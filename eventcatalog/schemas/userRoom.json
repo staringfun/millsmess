@@ -1,0 +1,17 @@
+{
+  "title": "UserRoom",
+  "type": "object",
+  "properties": {
+    "playerID": {
+      "$ref": "playerID.json#"
+    },
+    "roomID": {
+      "$ref": "roomID.json#"
+    },
+    "region": {
+      "$ref": "region.json#"
+    }
+  },
+  "required": ["playerID", "roomID", "region"],
+  "additionalProperties": false
+}

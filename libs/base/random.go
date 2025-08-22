@@ -6,8 +6,10 @@ package base
 
 import (
 	"crypto/rand"
+	"encoding/base64"
 	"github.com/staringfun/millsmess/libs/types"
 	"math/big"
+	mathRand "math/rand/v2"
 )
 
 func GenerateRandomStringRunes(length int, runes []rune) string {
@@ -97,4 +99,16 @@ const PlayerIDLength = 8
 
 func GeneratePlayerID() types.PlayerID {
 	return types.PlayerID(GenerateRandomString(PlayerIDLength))
+}
+
+func GenerateRandomStringFast(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = byte(mathRand.IntN(256))
+	}
+	return base64.RawURLEncoding.EncodeToString(b)[:n]
+}
+
+func GenerateTraceID() string {
+	return GenerateRandomStringFast(8)
 }

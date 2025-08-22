@@ -1,0 +1,35 @@
+{
+  "title": "Session",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "SessionID.json#"
+    },
+    "roomID": {
+      "$ref": "roomID.json#"
+    },
+    "game": {
+      "$ref": "game.json#"
+    },
+    "players": {
+      "type": "array",
+      "items": {
+        "$ref": "sessionPlayer.json#"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finishedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "game", "players", "createdAt"],
+  "additionalProperties": false
+}

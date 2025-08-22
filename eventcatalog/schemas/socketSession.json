@@ -21,7 +21,7 @@
     },
     "createdAt": {
       "type": "string",
-      "format": "date-time"
+      "format": "date"
     },
     "startedAt": {
       "type": "string",

@@ -1,0 +1,47 @@
+---
+id: SocketSession
+name: SocketSession
+version: 0.0.0
+summary: Represents all socket session data.
+properties:
+  - name: id
+    type: SessionID
+    required: true
+    description: Unique identifier for the session
+  - name: game
+    type: Game
+    required: true
+    description: Session game
+  - name: players
+    type: Map[UserID]SocketSessionPlayer
+    required: true
+    description: Session players by id
+    references: SocketSessionPlayer
+    relationType: hasMany
+    referencesIdentifier: isWin
+  - name: data
+    required: true
+    type: object
+    description: Session data
+  - name: createdAt
+    type: string
+    required: true
+    format: date
+    description: When session created at
+  - name: startedAt
+    type: string
+    format: date-time
+    description: When session started at
+  - name: finishedAt
+    type: string
+    format: date-time
+    description: When session finished at
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/socketSession.json" />

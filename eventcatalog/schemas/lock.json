@@ -1,0 +1,15 @@
+{
+  "title": "Lock",
+  "type": "object",
+  "properties": {
+    "key": {
+      "$ref": "lockKey.json#"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["key", "expiresAt"],
+  "additionalProperties": false
+}

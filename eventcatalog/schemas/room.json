@@ -11,11 +11,17 @@
     "owner": {
       "$ref": "user.json#"
     },
+    "sessions": {
+      "type": "array",
+      "items": {
+        "$ref": "session.json#"
+      }
+    },
     "createdAt": {
       "type": "string",
       "format": "date"
     }
   },
-  "required": ["id", "ownerID", "owner", "createdAt"],
+  "required": ["id", "ownerID", "owner", "sessions", "createdAt"],
   "additionalProperties": false
 }

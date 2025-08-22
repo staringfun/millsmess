@@ -17,6 +17,8 @@ type Tx interface {
 }
 
 type BaseTx struct {
+	Config        Config
+	PubSub        Config
 	Clock         Clock
 	MemoryStorage MemoryStorage
 	Ctx           context.Context
@@ -49,6 +51,7 @@ func (t *BaseTx) Apply() {
 
 func (b *Base) NewTx(ctx context.Context) *BaseTx {
 	return &BaseTx{
+		Config:        b.Config,
 		Clock:         b.Clock,
 		MemoryStorage: b.MemoryStorage,
 		Ctx:           ctx,

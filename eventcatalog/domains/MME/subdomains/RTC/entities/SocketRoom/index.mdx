@@ -1,0 +1,38 @@
+---
+id: SocketRoom
+name: SocketRoom
+version: 0.0.0
+summary: Represents all socket room data.
+properties:
+  - name: id
+    type: RoomID
+    required: true
+    description: Unique identifier for the room
+  - name: profile
+    type: Room
+    description: Socket room profile
+    references: Room
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: players
+    type: SocketRoomPlayer[]
+    required: true
+    description: Room active players
+    references: SocketRoomPlayer
+    relationType: hasMany
+    referencesIdentifier: id
+  - name: session
+    type: SocketSession
+    description: Room active session
+    references: SocketSession
+    relationType: hasOne
+    referencesIdentifier: id
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/socketRoom.json" />

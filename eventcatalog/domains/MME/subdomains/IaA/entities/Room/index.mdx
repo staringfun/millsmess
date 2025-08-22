@@ -1,0 +1,43 @@
+---
+id: Room
+name: Room
+interface: true
+version: 0.0.0
+summary: Represents all room data.
+properties:
+  - name: id
+    type: RoomID
+    required: true
+    description: Unique identifier for the room
+  - name: ownerID
+    type: UserID
+    required: true
+    description: Owner id of the room
+  - name: owner
+    type: User
+    required: true
+    description: Owner of the room
+    references: User
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: sessions
+    type: "Session[]"
+    required: true
+    description: Sessions of the room
+    references: Session
+    relationType: hasMany
+    referencesIdentifier: id
+  - name: createdAt
+    required: true
+    type: string
+    format: date
+    description: Date when room was created
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/room.json" />

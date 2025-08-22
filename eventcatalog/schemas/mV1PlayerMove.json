@@ -1,0 +1,23 @@
+{
+  "title": "MV1PlayerMove",
+  "type": "object",
+  "properties": {
+    "playerID": {
+      "$ref": "playerID.json#"
+    },
+    "userID": {
+      "$ref": "userID.json#"
+    },
+    "joinedRoom": {
+      "$ref": "roomID.json#"
+    },
+    "leftRoom": {
+      "$ref": "roomID.json#"
+    },
+    "leftRoomReason": {
+      "$ref": "leaveReason.json#"
+    }
+  },
+  "required": ["playerID", "userID"],
+  "additionalProperties": false
+}

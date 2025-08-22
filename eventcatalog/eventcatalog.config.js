@@ -51,6 +51,19 @@ export default {
         ]
       }
     ],
+    [
+      './goPubsub.js',
+      {
+        outPath: '../libs/base/pubsub_generated.go',
+        packageName: 'base',
+        preamble: [
+          '// Mills Mess',
+          '// Licensed under the Mills Mess License Agreement',
+          '// See LICENSE.md in the root of this repository.',
+          '',
+        ]
+      },
+    ],
   ],
   sidebar: [{
     id: '/docs/custom',

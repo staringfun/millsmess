@@ -18,6 +18,12 @@
     "points": {
       "$ref": "points.json#"
     },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "$ref": "room.json#"
+      }
+    },
     "createdAt": {
       "type": "string",
       "format": "date"
@@ -27,6 +33,6 @@
       "format": "date"
     }
   },
-  "required": ["id", "username", "role", "points", "email", "createdAt"],
+  "required": ["id", "username", "role", "rooms", "points", "email", "createdAt"],
   "additionalProperties": false
 }

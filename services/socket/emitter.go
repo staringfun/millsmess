@@ -8,7 +8,7 @@ import (
 )
 
 type Emitter interface {
-	Emit(writer base.ContextWriter, event types.SocketMessageTypeEvent, data types.SocketData, ctx context.Context) error
+	Emit(writer base.ContextWriter, event types.SocketMessageTypeEvent, data any, ctx context.Context) error
 }
 
 type DefaultEmitter struct {
@@ -16,7 +16,7 @@ type DefaultEmitter struct {
 
 const EventDataArraySize = 2
 
-func (e *DefaultEmitter) Emit(writer base.ContextWriter, event types.SocketMessageTypeEvent, data types.SocketData, ctx context.Context) error {
+func (e *DefaultEmitter) Emit(writer base.ContextWriter, event types.SocketMessageTypeEvent, data any, ctx context.Context) error {
 	bytes, err := json.Marshal([EventDataArraySize]any{event, data})
 	if err != nil {
 		return err

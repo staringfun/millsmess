@@ -4,7 +4,7 @@
   "goInterface": true,
   "properties": {
     "id": {
-      "$ref": "./userID.json#"
+      "$ref": "userID.json#"
     },
     "username": {
       "$ref": "username.json#"
@@ -15,6 +15,12 @@
     "points": {
       "$ref": "points.json#"
     },
+    "rooms": {
+      "type": "array",
+      "items": {
+        "$ref": "room.json#"
+      }
+    },
     "createdAt": {
       "type": "string",
       "format": "date"
@@ -24,6 +30,6 @@
       "format": "date"
     }
   },
-  "required": ["id", "username", "role", "points", "createdAt"],
+  "required": ["id", "username", "role", "rooms", "points", "createdAt"],
   "additionalProperties": false
 }

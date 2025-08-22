@@ -127,11 +127,19 @@ func (g *BroadcasterGroup) GetBroadcaster(id any) *Broadcaster {
 }
 
 type Broadcasters struct {
-	UserBroadcasters *BroadcasterGroup
+	PlayerBroadcasters      *BroadcasterGroup
+	PrivateUserBroadcasters *BroadcasterGroup
+	PublicUserBroadcasters  *BroadcasterGroup
+	PublicRoomBroadcasters  *BroadcasterGroup
+	PrivateRoomBroadcasters *BroadcasterGroup
 }
 
 func NewBroadcasters() *Broadcasters {
 	return &Broadcasters{
-		UserBroadcasters: NewBroadcasterGroup(),
+		PlayerBroadcasters:      NewBroadcasterGroup(),
+		PrivateUserBroadcasters: NewBroadcasterGroup(),
+		PublicUserBroadcasters:  NewBroadcasterGroup(),
+		PublicRoomBroadcasters:  NewBroadcasterGroup(),
+		PrivateRoomBroadcasters: NewBroadcasterGroup(),
 	}
 }

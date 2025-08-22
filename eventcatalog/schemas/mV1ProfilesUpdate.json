@@ -1,0 +1,19 @@
+{
+  "title": "MV1ProfilesUpdate",
+  "type": "object",
+  "properties": {
+    "rooms": {
+      "type": "array",
+      "items": {
+        "$ref": "roomID.json#"
+      }
+    },
+    "users": {
+      "type": "array",
+      "items": {
+        "$ref": "user.json#"
+      }
+    }
+  },
+  "additionalProperties": false
+}

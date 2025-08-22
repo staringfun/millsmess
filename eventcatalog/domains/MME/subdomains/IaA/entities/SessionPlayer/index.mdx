@@ -1,0 +1,42 @@
+---
+id: SessionPlayer
+name: SessionPlayer
+interface: true
+version: 0.0.0
+summary: Represents all session player data.
+properties:
+  - name: userID
+    type: UserID
+    required: true
+    description: Unique identifier for the user
+    references: User
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: sessionID
+    type: SessionID
+    required: true
+    description: Unique identifier for the session
+    references: Session
+    relationType: hasOne
+    referencesIdentifier: id
+  - name: isWin
+    type: boolean
+    required: true
+    description: Is player win
+  - name: points
+    type: Points
+    required: true
+    description: Points of the player
+  - name: finishedAt
+    type: string
+    format: date-time
+    description: Date when player finished
+---
+
+## Overview
+
+### Entity Properties
+
+<EntityPropertiesTable />
+
+<Schema file="../../../../../../schemas/sessionPlayer.json" />

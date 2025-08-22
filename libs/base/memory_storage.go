@@ -16,13 +16,16 @@ type MemoryStorageOperations interface {
 }
 
 type MemoryStorageLock interface {
-	LockValue(key string, ctx context.Context) error
-	LockValueRetry(key string, ctx context.Context, strategy RetryStrategy) error
-	UnlockValue(key string, ctx context.Context) error
+	Unlock() error
+}
+
+type MemoryStorageLocker interface {
+	LockValue(key string, ctx context.Context) (MemoryStorageLock, error)
+	LockValueRetry(key string, ctx context.Context, strategy RetryStrategy) (MemoryStorageLock, error)
 }
 
 type MemoryStorage interface {
 	MemoryStorageOperations
-	MemoryStorageLock
+	MemoryStorageLocker
 	StartTransaction(ctx context.Context) (MemoryStorageTransaction, error)
 }

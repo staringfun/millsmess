@@ -41,7 +41,7 @@ type PreconnectArgs struct {
 	Cookie        string
 	XForwardedFor string
 	UserAgent     string
-	JoinRoomID    types.RoomID
+	JoinArgs      *types.MV1RoomJoin
 }
 
 type TxPreconnect struct {
@@ -54,8 +54,10 @@ type TxPreconnect struct {
 
 func (t *TxPreconnect) LoadData() (bool, error) {
 	user, _, err := t.CoreInternal.FetchMeHeaders(public_core_api.FetchMeArgs{
-		Token:  t.Args.Token,
-		Cookie: t.Args.Cookie,
+		Auth: public_core_api.AuthArgs{
+			Token:  t.Args.Token,
+			Cookie: t.Args.Cookie,
+		},
 	}, map[string]string{
 		"X-Forwarded-For": t.Args.XForwardedFor,
 		"User-Agent":      t.Args.UserAgent,
@@ -81,12 +83,13 @@ func (t *TxPreconnect) LoadData() (bool, error) {
 	playerID := base.GeneratePlayerID()
 	ctx = WithPlayerID(ctx, playerID)
 	ctx = WithUserID(ctx, user.GetID())
+	ctx = WithConnectionLoggerFields(ctx, ctx)
 	t.ClientData = &ClientSocketData{
-		PlayerID:   playerID,
-		User:       user,
-		Ctx:        ctx,
-		cancel:     cancel,
-		joinRoomID: &t.Args.JoinRoomID,
+		PlayerID: playerID,
+		User:     user,
+		Ctx:      ctx,
+		cancel:   cancel,
+		joinArgs: t.Args.JoinArgs,
 	}
 	t.ClientData.pongedAt.Store(t.Clock.UTCTime())
 

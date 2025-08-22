@@ -1,0 +1,24 @@
+{
+  "title": "SessionPlayer",
+  "type": "object",
+  "properties": {
+    "sessionID": {
+      "$ref": "SessionID.json#"
+    },
+    "userID": {
+      "$ref": "userID.json#"
+    },
+    "isWin": {
+      "type": "boolean"
+    },
+    "points": {
+      "$ref": "points.json#"
+    },
+    "finishedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["sessionID", "userID", "isWin", "points"],
+  "additionalProperties": false
+}

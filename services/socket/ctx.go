@@ -2,6 +2,7 @@ package socket
 
 import (
 	"context"
+	"github.com/staringfun/millsmess/libs/base"
 	"github.com/staringfun/millsmess/libs/types"
 )
 
@@ -27,4 +28,11 @@ func GetUserID(ctx context.Context) types.UserID {
 	id := ctx.Value(UserIDKey)
 	playerID, _ := id.(types.UserID)
 	return playerID
+}
+
+func WithConnectionLoggerFields(ctx context.Context, connectionCtx context.Context) context.Context {
+	return base.GetLogger(ctx).With().
+		Any("playerID", GetPlayerID(connectionCtx)).
+		Any("userID", GetUserID(connectionCtx)).
+		WithContext(ctx)
 }

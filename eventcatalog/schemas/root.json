@@ -1,6 +1,12 @@
 {
   "title": "RootSchema",
   "$defs": {
+    "LockKey": {
+      "$ref": "lockKey.json#"
+    },
+    "Lock": {
+      "$ref": "lock.json#"
+    },
     "JoinResult": {
       "$ref": "joinResult.json#"
     },
@@ -73,11 +79,23 @@
     "SocketSession": {
       "$ref": "socketSession.json#"
     },
+    "MV1PlayerMove": {
+      "$ref": "mV1PlayerMove.json#"
+    },
+    "Region": {
+      "$ref": "region.json#"
+    },
+    "UserRoom": {
+      "$ref": "userRoom.json#"
+    },
+    "Session": {
+      "$ref": "session.json#"
+    },
+    "SessionPlayer": {
+      "$ref": "sessionPlayer.json#"
+    },
     "DisconnectReason": {
       "$ref": "disconnectReason.json#"
-    },
-    "MV1Connect": {
-      "$ref": "mv1Connect.json#"
     },
     "MV1Disconnect": {
       "$ref": "mv1Disconnect.json#"
@@ -90,6 +108,12 @@
     },
     "MV1RoomLeave": {
       "$ref": "mv1RoomLeave.json#"
+    },
+    "MV1ProfilesUpdate": {
+      "$ref": "mV1ProfilesUpdate.json#"
+    },
+    "MV1SessionUpdate": {
+      "$ref": "mV1SessionUpdate.json#"
     }
   }
 }

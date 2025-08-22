@@ -17,8 +17,25 @@ properties:
     type: UserRole
     required: true
     description: Role of the user
+  - name: points
+    type: Points
+    required: true
+    description: Points of the user
+  - name: rooms
+    type: "[]Room"
+    required: true
+    description: Rooms of the user
+    references: Room
+    relationType: hasMany
+    referencesIdentifier: id
+  - name: createdAt
+    required: true
+    type: string
+    format: date
+    description: Date when user was created
   - name: bannedAt
-    type: Date
+    type: string
+    format: date
     description: Date when user was banned, empty if not banned
 ---
 
@@ -28,4 +45,4 @@ properties:
 
 <EntityPropertiesTable />
 
-<SchemaViewer file="../../../../schemas/user.json" />
+<Schema file="../../../../../../schemas/user.json" />
