@@ -89,14 +89,15 @@ module.exports = async (config, options = {}) => {
     messages.forEach(m => {
         if (!m.schemaPath) return
         const schema = require(`./${m.schemaPath}`)
-        types.push(schema.title)
+        types.push(`${schema.title}@${m.channels[0].id}`)
     })
     const allTypes = Array.from(new Set(types))
     writer.appendLine('type PubsubRegistry struct {')
     writer.appendLinesWithTabs(1, 'Marshaller                Marshaller')
     writer.appendLinesWithTabs(1, 'Engine     PubsubEngine')
     allTypes.forEach(t => {
-        writer.appendLinesWithTabs(1, `${t}Registry *TypedSubscribers[${typesPackage}.${t}]`)
+        const tt = t.split('@')[0]
+        writer.appendLinesWithTabs(1, `${tt}Registry *TypedSubscribers[${typesPackage}.${tt}]`)
     })
     writer.appendLine('}')
 
@@ -135,13 +136,16 @@ module.exports = async (config, options = {}) => {
     writer.appendLine(`func (${refName} *${structName}) GetSubscribers() map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error {`)
     writer.appendLinesWithTabs(1, `topics := map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}`)
     allTypes.forEach(t => {
-        writer.appendLinesWithTabs(1, `for topic := range ${refName}.${t}Registry.subscribers {`)
-        writer.appendLinesWithTabs(2, `for config := range ${refName}.${t}Registry.subscribers[topic] {`)
+        console.log({t})
+        const tt = t.split('@')[0]
+        const tn = t.split('@')[1]
+        writer.appendLinesWithTabs(1, `for topic := range ${refName}.${tt}Registry.subscribers {`)
+        writer.appendLinesWithTabs(2, `for config := range ${refName}.${tt}Registry.subscribers[topic] {`)
         writer.appendLinesWithTabs(3, `if _, ok := topics[topic]; !ok {`)
         writer.appendLinesWithTabs(4, `topics[topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}`)
         writer.appendLinesWithTabs(3, `}`)
         writer.appendLinesWithTabs(3, `topics[topic][config] = func(msg PubsubMessage, ctx context.Context) error {`)
-        writer.appendLinesWithTabs(4, `return ${refName}.Handle${t}Message(msg, config, ctx)`)
+        writer.appendLinesWithTabs(4, `return ${refName}.Handle${tn}Message(msg, config, ctx)`)
         writer.appendLinesWithTabs(3, `}`)
         writer.appendLinesWithTabs(2, `}`)
         writer.appendLinesWithTabs(1, `}`)
