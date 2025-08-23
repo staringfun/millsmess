@@ -1,6 +1,7 @@
 const fsPromises = require('fs/promises')
 const $RefParser = require('@apidevtools/json-schema-ref-parser');
-const gofmt = require('gofmt.js');
+const init = require('@wasm-fmt/gofmt').default;
+const {format} = require('@wasm-fmt/gofmt');
 const utils = require('@eventcatalog/sdk');
 const { getEvents, getCommands } = utils.default(__dirname);
 const { FileWriter } = require('./generator')
@@ -19,6 +20,7 @@ module.exports = async (config, options = {}) => {
         $RefParser.dereference(schemaPath),
         getCommands(),
         getEvents(),
+        init()
     ])
     const defs = Object.values(schema['$defs'])
     const writer = new FileWriter(defs)
@@ -56,6 +58,5 @@ module.exports = async (config, options = {}) => {
     })
 
     const text = writer.getText()
-    const formatted = gofmt(text)
-    await fsPromises.writeFile(outPath, formatted ? formatted : `// FILE CONTAINS ERRORS!\n${text}`)
+    await fsPromises.writeFile(outPath, format(text))
 }

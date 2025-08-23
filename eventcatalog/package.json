@@ -13,6 +13,6 @@
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "14.1.1",
     "@eventcatalog/core": "2.55.3",
-    "gofmt.js": "0.0.2"
+    "@wasm-fmt/gofmt": "0.4.9"
   }
 }

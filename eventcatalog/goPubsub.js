@@ -1,5 +1,6 @@
 const fsPromises = require('fs/promises')
-const gofmt = require('gofmt.js');
+const init = require('@wasm-fmt/gofmt').default;
+const {format} = require('@wasm-fmt/gofmt');
 const utils = require('@eventcatalog/sdk');
 const { getEvents, getCommands } = utils.default(__dirname);
 const { FileWriter, formatEnumName } = require('./generator')
@@ -58,6 +59,7 @@ module.exports = async (config, options = {}) => {
     const [commands, events] = await Promise.all([
         getCommands(),
         getEvents(),
+        init()
     ])
     const writer = new FileWriter()
 
@@ -111,6 +113,8 @@ module.exports = async (config, options = {}) => {
             typesPackage,
         })
     })
+    writer.appendLine(``)
+    writer.appendLine(``)
     Object.keys(channels).forEach(c => {
         writer.appendLine(`func (${refName} *${structName}) Handle${c}Message(msg PubsubMessage, config SubscriptionConfig, ctx context.Context) error {`)
         writer.appendLinesWithTabs(1, `version := GetVersionAttribute(msg.Attributes)`)
@@ -132,11 +136,11 @@ module.exports = async (config, options = {}) => {
         writer.appendLinesWithTabs(1, `return nil`)
         writer.appendLine( '}')
     })
-
+    writer.appendLine(``)
+    writer.appendLine(``)
     writer.appendLine(`func (${refName} *${structName}) GetSubscribers() map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error {`)
     writer.appendLinesWithTabs(1, `topics := map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}`)
     allTypes.forEach(t => {
-        console.log({t})
         const tt = t.split('@')[0]
         const tn = t.split('@')[1]
         writer.appendLinesWithTabs(1, `for topic := range ${refName}.${tt}Registry.subscribers {`)
@@ -154,6 +158,5 @@ module.exports = async (config, options = {}) => {
     writer.appendLine(`}`)
 
     const text = writer.getText()
-    const formatted = gofmt(text)
-    await fsPromises.writeFile(outPath, formatted ? formatted : `// FILE CONTAINS ERRORS!\n${text}`)
+    await fsPromises.writeFile(outPath, format(text))
 }

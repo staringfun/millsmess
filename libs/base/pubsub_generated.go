@@ -1,4 +1,3 @@
-// FILE CONTAINS ERRORS!
 // Mills Mess
 // Licensed under the Mills Mess License Agreement
 // See LICENSE.md in the root of this repository.
@@ -47,6 +46,7 @@ func (r *PubsubRegistry) PublishV1SessionUpdate(data types.MV1SessionUpdate, att
 func (r *PubsubRegistry) RegisterV1SessionUpdateSubscription(ff func(data types.MV1SessionUpdate, attributes map[string]string, ctx context.Context) error, config SubscriptionConfig) {
 	r.MV1SessionUpdateRegistry.RegisterSubscriber(types.TopicNameSessionUpdate, config, ff)
 }
+
 func (r *PubsubRegistry) HandleProfilesUpdatesMessage(msg PubsubMessage, config SubscriptionConfig, ctx context.Context) error {
 	version := GetVersionAttribute(msg.Attributes)
 	switch version {
@@ -81,6 +81,7 @@ func (r *PubsubRegistry) HandleSessionUpdatesMessage(msg PubsubMessage, config S
 	}
 	return nil
 }
+
 func (r *PubsubRegistry) GetSubscribers() map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error {
 	topics := map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}
 	for topic := range r.MV1ProfilesUpdateRegistry.subscribers {
