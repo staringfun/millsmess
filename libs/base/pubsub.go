@@ -96,29 +96,34 @@ type Pubsub struct {
 	PubsubRegistry
 }
 
+type SubscriberItem[T any] struct {
+	Topic  types.TopicName
+	Config SubscriptionConfig
+	Func   func(T, map[string]string, context.Context) error
+}
+
 type TypedSubscribers[T any] struct {
-	subscribers map[types.TopicName]map[SubscriptionConfig][]func(T, map[string]string, context.Context) error
+	subscribers []SubscriberItem[T]
 }
 
 func (s *TypedSubscribers[T]) RegisterSubscriber(topic types.TopicName, config SubscriptionConfig, f func(T, map[string]string, context.Context) error) {
-	_, ok := s.subscribers[topic]
-	if !ok {
-		s.subscribers[topic] = make(map[SubscriptionConfig][]func(T, map[string]string, context.Context) error)
-	}
-	s.subscribers[topic][config] = append(s.subscribers[topic][config], f)
+	s.subscribers = append(s.subscribers, SubscriberItem[T]{
+		Topic:  topic,
+		Config: config,
+		Func:   f,
+	})
 }
 
 func (s *TypedSubscribers[T]) Run(topic types.TopicName, config SubscriptionConfig, data T, attributes map[string]string, ctx context.Context) error {
-	_, ok := s.subscribers[topic]
-	if !ok {
-		return nil
-	}
-	funcs, ok := s.subscribers[topic][config]
-	if !ok {
-		return nil
-	}
-	for _, f := range funcs {
-		err := f(data, attributes, ctx)
+	var err error
+	for _, subscriber := range s.subscribers {
+		if subscriber.Topic != topic {
+			continue
+		}
+		if subscriber.Config != config {
+			continue
+		}
+		err = subscriber.Func(data, attributes, ctx)
 		if err != nil {
 			return err
 		}

@@ -143,14 +143,12 @@ module.exports = async (config, options = {}) => {
     allTypes.forEach(t => {
         const tt = t.split('@')[0]
         const tn = t.split('@')[1]
-        writer.appendLinesWithTabs(1, `for topic := range ${refName}.${tt}Registry.subscribers {`)
-        writer.appendLinesWithTabs(2, `for config := range ${refName}.${tt}Registry.subscribers[topic] {`)
-        writer.appendLinesWithTabs(3, `if _, ok := topics[topic]; !ok {`)
-        writer.appendLinesWithTabs(4, `topics[topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}`)
-        writer.appendLinesWithTabs(3, `}`)
-        writer.appendLinesWithTabs(3, `topics[topic][config] = func(msg PubsubMessage, ctx context.Context) error {`)
-        writer.appendLinesWithTabs(4, `return ${refName}.Handle${tn}Message(msg, config, ctx)`)
-        writer.appendLinesWithTabs(3, `}`)
+        writer.appendLinesWithTabs(1, `for _, subscriber := range ${refName}.${tt}Registry.subscribers {`)
+        writer.appendLinesWithTabs(2, `if _, ok := topics[subscriber.Topic]; !ok {`)
+        writer.appendLinesWithTabs(3, `topics[subscriber.Topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}`)
+        writer.appendLinesWithTabs(2, `}`)
+        writer.appendLinesWithTabs(2, `topics[subscriber.Topic][subscriber.Config] = func(msg PubsubMessage, ctx context.Context) error {`)
+        writer.appendLinesWithTabs(3, `return ${refName}.Handle${tn}Message(msg, subscriber.Config, ctx)`)
         writer.appendLinesWithTabs(2, `}`)
         writer.appendLinesWithTabs(1, `}`)
     })

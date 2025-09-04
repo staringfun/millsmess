@@ -84,24 +84,20 @@ func (r *PubsubRegistry) HandleSessionUpdatesMessage(msg PubsubMessage, config S
 
 func (r *PubsubRegistry) GetSubscribers() map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error {
 	topics := map[types.TopicName]map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}
-	for topic := range r.MV1ProfilesUpdateRegistry.subscribers {
-		for config := range r.MV1ProfilesUpdateRegistry.subscribers[topic] {
-			if _, ok := topics[topic]; !ok {
-				topics[topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}
-			}
-			topics[topic][config] = func(msg PubsubMessage, ctx context.Context) error {
-				return r.HandleProfilesUpdatesMessage(msg, config, ctx)
-			}
+	for _, subscriber := range r.MV1ProfilesUpdateRegistry.subscribers {
+		if _, ok := topics[subscriber.Topic]; !ok {
+			topics[subscriber.Topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}
+		}
+		topics[subscriber.Topic][subscriber.Config] = func(msg PubsubMessage, ctx context.Context) error {
+			return r.HandleProfilesUpdatesMessage(msg, subscriber.Config, ctx)
 		}
 	}
-	for topic := range r.MV1SessionUpdateRegistry.subscribers {
-		for config := range r.MV1SessionUpdateRegistry.subscribers[topic] {
-			if _, ok := topics[topic]; !ok {
-				topics[topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}
-			}
-			topics[topic][config] = func(msg PubsubMessage, ctx context.Context) error {
-				return r.HandleSessionUpdatesMessage(msg, config, ctx)
-			}
+	for _, subscriber := range r.MV1SessionUpdateRegistry.subscribers {
+		if _, ok := topics[subscriber.Topic]; !ok {
+			topics[subscriber.Topic] = map[SubscriptionConfig]func(PubsubMessage, context.Context) error{}
+		}
+		topics[subscriber.Topic][subscriber.Config] = func(msg PubsubMessage, ctx context.Context) error {
+			return r.HandleSessionUpdatesMessage(msg, subscriber.Config, ctx)
 		}
 	}
 	return topics
