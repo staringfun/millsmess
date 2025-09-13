@@ -20,7 +20,7 @@ The name Mills Mess comes from a famous juggling pattern that appears chaotic bu
 
 ## Event Catalog
 
-Inside the `eventcatalog/` folder, we provide the **full architecture** of the system along with **interactive documentation**.  
+Inside the [`eventcatalog/`](./eventcatalog) folder, we provide the **full architecture** of the system along with **interactive documentation**.  
 This includes detailed event-driven design, service boundaries, and data flow — all browsable in a visual format.
 
 Use it to explore and understand how the components of Mills Mess interact and scale.
