@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "14.1.1",
+    "@apidevtools/json-schema-ref-parser": "14.2.1",
     "@eventcatalog/core": "2.55.3",
     "@wasm-fmt/gofmt": "0.4.9"
   }
