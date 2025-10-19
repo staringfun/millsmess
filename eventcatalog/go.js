@@ -1,7 +1,7 @@
 const fsPromises = require('fs/promises')
 const $RefParser = require('@apidevtools/json-schema-ref-parser');
 const init = require('@wasm-fmt/gofmt').default;
-const {format} = require('@wasm-fmt/gofmt');
+const { format } = require('@wasm-fmt/gofmt');
 const utils = require('@eventcatalog/sdk');
 const { getEvents, getCommands } = utils.default(__dirname);
 const { FileWriter } = require('./generator')
