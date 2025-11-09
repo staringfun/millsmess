@@ -1,0 +1,17 @@
+{
+  "title": "MV1RoomSessionAction",
+  "type": "object",
+  "properties": {
+    "sessionID": {
+      "$ref": "sessionID.json#"
+    },
+    "action": {
+      "$ref": "roomSessionAction.json#"
+    },
+    "data": {
+      "type": "object"
+    }
+  },
+  "required": ["sessionID", "action", "data"],
+  "additionalProperties": false
+}

@@ -52,6 +52,9 @@
     "Room": {
       "$ref": "room.json#"
     },
+    "RoomSessionAction": {
+      "$ref": "roomSessionAction.json#"
+    },
     "SocketRoomPlayerData": {
       "$ref": "socketRoomPlayerData.json#"
     },
@@ -108,6 +111,9 @@
     },
     "MV1RoomLeave": {
       "$ref": "mv1RoomLeave.json#"
+    },
+    "MV1RoomSessionAction": {
+      "$ref": "mv1RoomSessionAction.json#"
     },
     "MV1ProfilesUpdate": {
       "$ref": "mV1ProfilesUpdate.json#"
