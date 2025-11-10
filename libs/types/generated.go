@@ -550,6 +550,21 @@ func (r *Room) IsValid() bool {
 	return true
 }
 
+type RoomSessionAction string
+
+func NewRoomSessionAction(r RoomSessionAction) *RoomSessionAction {
+	return &r
+}
+func (r RoomSessionAction) String() string {
+	return string(r)
+}
+func (r RoomSessionAction) IsEmpty() bool {
+	return r == ""
+}
+func (r RoomSessionAction) IsValid() bool {
+	return r != ""
+}
+
 type SocketRoomPlayerData struct {
 	IsMicrophoneMuted bool `json:"isMicrophoneMuted,omitempty"`
 	IsVideoMuted      bool `json:"isVideoMuted,omitempty"`
@@ -1068,6 +1083,25 @@ func (m *MV1RoomLeave) IsValid() bool {
 	return true
 }
 
+type MV1RoomSessionAction struct {
+	SessionID SessionID         `json:"sessionID,omitempty"`
+	Action    RoomSessionAction `json:"action,omitempty"`
+	Data      any               `json:"data,omitempty"`
+}
+
+func (m *MV1RoomSessionAction) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if !m.SessionID.IsValid() {
+		return false
+	}
+	if !m.Action.IsValid() {
+		return false
+	}
+	return true
+}
+
 type MV1ProfilesUpdate struct {
 	Rooms []RoomID `json:"rooms,omitempty"`
 	Users []User   `json:"users,omitempty"`
@@ -1118,13 +1152,15 @@ func (s SocketMessageTypeCommand) IsEmpty() bool {
 }
 
 const (
-	SocketMessageTypeCommandV1RoomLeave        SocketMessageTypeCommand = "v1:room.leave"
-	SocketMessageTypeCommandV1RoomJoin         SocketMessageTypeCommand = "v1:room.join"
-	SocketMessageTypeCommandV1Connect          SocketMessageTypeCommand = "v1:connect"
-	SocketMessageTypeCommandV1ClientDisconnect SocketMessageTypeCommand = "v1:client.disconnect"
+	SocketMessageTypeCommandV1RoomSessionAction SocketMessageTypeCommand = "v1:room.session.action"
+	SocketMessageTypeCommandV1RoomLeave         SocketMessageTypeCommand = "v1:room.leave"
+	SocketMessageTypeCommandV1RoomJoin          SocketMessageTypeCommand = "v1:room.join"
+	SocketMessageTypeCommandV1Connect           SocketMessageTypeCommand = "v1:connect"
+	SocketMessageTypeCommandV1ClientDisconnect  SocketMessageTypeCommand = "v1:client.disconnect"
 )
 
 var AllSocketMessageTypeCommand = []SocketMessageTypeCommand{
+	SocketMessageTypeCommandV1RoomSessionAction,
 	SocketMessageTypeCommandV1RoomLeave,
 	SocketMessageTypeCommandV1RoomJoin,
 	SocketMessageTypeCommandV1Connect,
