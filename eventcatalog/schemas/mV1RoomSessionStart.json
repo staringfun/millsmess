@@ -1,0 +1,14 @@
+{
+  "title": "MV1RoomSessionStart",
+  "type": "object",
+  "properties": {
+    "sessionID": {
+      "$ref": "sessionID.json#"
+    },
+    "game": {
+      "$ref": "game.json#"
+    }
+  },
+  "required": ["sessionID", "game"],
+  "additionalProperties": false
+}
