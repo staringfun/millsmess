@@ -1,0 +1,14 @@
+{
+  "title": "MV1RoomMatch",
+  "type": "object",
+  "properties": {
+    "game": {
+      "$ref": "game.json#"
+    },
+    "key": {
+      "$ref": "messageKey.json#"
+    }
+  },
+  "required": ["game"],
+  "additionalProperties": false
+}

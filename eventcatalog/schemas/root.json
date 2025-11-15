@@ -109,6 +109,9 @@
     "MV1RoomLeave": {
       "$ref": "mv1RoomLeave.json#"
     },
+    "MV1RoomMatch": {
+      "$ref": "mv1RoomMatch.json#"
+    },
     "MV1RoomSessionStart": {
       "$ref": "mv1RoomSessionStart.json#"
     },
