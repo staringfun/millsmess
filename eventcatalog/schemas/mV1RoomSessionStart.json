@@ -7,6 +7,9 @@
     },
     "game": {
       "$ref": "game.json#"
+    },
+    "key": {
+      "$ref": "messageKey.json#"
     }
   },
   "required": ["sessionID", "game"],
