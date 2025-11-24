@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apidevtools/json-schema-ref-parser": "14.2.1",
-    "@eventcatalog/core": "2.64.3",
+    "@eventcatalog/core": "2.64.4",
     "@wasm-fmt/gofmt": "0.4.9"
   }
 }

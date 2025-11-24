@@ -115,6 +115,9 @@
     "MV1RoomSessionStart": {
       "$ref": "mv1RoomSessionStart.json#"
     },
+    "MV1RoomSessionRematch": {
+      "$ref": "mv1RoomSessionRematch.json#"
+    },
     "MV1ProfilesUpdate": {
       "$ref": "mV1ProfilesUpdate.json#"
     },

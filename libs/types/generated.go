@@ -1087,19 +1087,42 @@ func (m *MV1RoomMatch) IsValid() bool {
 }
 
 type MV1RoomSessionStart struct {
-	SessionID SessionID   `json:"sessionID,omitempty"`
-	Game      Game        `json:"game,omitempty"`
-	Key       *MessageKey `json:"key,omitempty"`
+	RoomID RoomID      `json:"roomID,omitempty"`
+	Game   Game        `json:"game,omitempty"`
+	Key    *MessageKey `json:"key,omitempty"`
 }
 
 func (m *MV1RoomSessionStart) IsValid() bool {
 	if m == nil {
 		return false
 	}
-	if !m.SessionID.IsValid() {
+	if !m.RoomID.IsValid() {
 		return false
 	}
 	if !m.Game.IsValid() {
+		return false
+	}
+	if m.Key != nil && !m.Key.IsValid() {
+		return false
+	}
+	return true
+}
+
+type MV1RoomSessionRematch struct {
+	RoomID    RoomID      `json:"roomID,omitempty"`
+	SessionID SessionID   `json:"sessionID,omitempty"`
+	IsRematch bool        `json:"isRematch,omitempty"`
+	Key       *MessageKey `json:"key,omitempty"`
+}
+
+func (m *MV1RoomSessionRematch) IsValid() bool {
+	if m == nil {
+		return false
+	}
+	if !m.RoomID.IsValid() {
+		return false
+	}
+	if !m.SessionID.IsValid() {
 		return false
 	}
 	if m.Key != nil && !m.Key.IsValid() {
@@ -1158,16 +1181,20 @@ func (s SocketMessageTypeCommand) IsEmpty() bool {
 }
 
 const (
-	SocketMessageTypeCommandV1RoomSessionStart SocketMessageTypeCommand = "v1:room.session.start"
-	SocketMessageTypeCommandV1RoomMatch        SocketMessageTypeCommand = "v1:room.match"
-	SocketMessageTypeCommandV1RoomLeave        SocketMessageTypeCommand = "v1:room.leave"
-	SocketMessageTypeCommandV1RoomJoin         SocketMessageTypeCommand = "v1:room.join"
-	SocketMessageTypeCommandV1Connect          SocketMessageTypeCommand = "v1:connect"
-	SocketMessageTypeCommandV1ClientDisconnect SocketMessageTypeCommand = "v1:client.disconnect"
+	SocketMessageTypeCommandV1RoomSessionStart     SocketMessageTypeCommand = "v1:room.session.start"
+	SocketMessageTypeCommandV1RoomSessionRematch   SocketMessageTypeCommand = "v1:room.session.rematch"
+	SocketMessageTypeCommandV1RoomPlayerDataUpdate SocketMessageTypeCommand = "v1:room.player.data.update"
+	SocketMessageTypeCommandV1RoomMatch            SocketMessageTypeCommand = "v1:room.match"
+	SocketMessageTypeCommandV1RoomLeave            SocketMessageTypeCommand = "v1:room.leave"
+	SocketMessageTypeCommandV1RoomJoin             SocketMessageTypeCommand = "v1:room.join"
+	SocketMessageTypeCommandV1Connect              SocketMessageTypeCommand = "v1:connect"
+	SocketMessageTypeCommandV1ClientDisconnect     SocketMessageTypeCommand = "v1:client.disconnect"
 )
 
 var AllSocketMessageTypeCommand = []SocketMessageTypeCommand{
 	SocketMessageTypeCommandV1RoomSessionStart,
+	SocketMessageTypeCommandV1RoomSessionRematch,
+	SocketMessageTypeCommandV1RoomPlayerDataUpdate,
 	SocketMessageTypeCommandV1RoomMatch,
 	SocketMessageTypeCommandV1RoomLeave,
 	SocketMessageTypeCommandV1RoomJoin,

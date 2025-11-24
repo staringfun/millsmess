@@ -1,5 +1,5 @@
 {
-  "title": "MV1RoomSessionStart",
+  "title": "MV1RoomSessionRematch",
   "type": "object",
   "properties": {
     "roomID": {
@@ -8,13 +8,13 @@
     "sessionID": {
       "$ref": "sessionID.json#"
     },
-    "game": {
-      "$ref": "game.json#"
+    "isRematch": {
+      "type": "boolean"
     },
     "key": {
       "$ref": "messageKey.json#"
     }
   },
-  "required": ["roomID", "game"],
+  "required": ["roomID", "sessionID", "isRematch"],
   "additionalProperties": false
 }
