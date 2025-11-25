@@ -1087,9 +1087,10 @@ func (m *MV1RoomMatch) IsValid() bool {
 }
 
 type MV1RoomSessionStart struct {
-	RoomID RoomID      `json:"roomID,omitempty"`
-	Game   Game        `json:"game,omitempty"`
-	Key    *MessageKey `json:"key,omitempty"`
+	RoomID    RoomID      `json:"roomID,omitempty"`
+	SessionID *SessionID  `json:"sessionID,omitempty"`
+	Game      Game        `json:"game,omitempty"`
+	Key       *MessageKey `json:"key,omitempty"`
 }
 
 func (m *MV1RoomSessionStart) IsValid() bool {
@@ -1097,6 +1098,9 @@ func (m *MV1RoomSessionStart) IsValid() bool {
 		return false
 	}
 	if !m.RoomID.IsValid() {
+		return false
+	}
+	if m.SessionID != nil && !m.SessionID.IsValid() {
 		return false
 	}
 	if !m.Game.IsValid() {
