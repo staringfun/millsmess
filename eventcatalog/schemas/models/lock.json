@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "key": {
-      "$ref": "lockKey.json#"
+      "$ref": "../scalars/lockKey.json#"
     },
     "expiresAt": {
       "type": "string",

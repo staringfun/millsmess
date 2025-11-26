@@ -4,16 +4,16 @@
   "goInterface": true,
   "properties": {
     "id": {
-      "$ref": "userID.json#"
+      "$ref": "../scalars/userID.json#"
     },
     "username": {
-      "$ref": "username.json#"
+      "$ref": "../scalars/username.json#"
     },
     "role": {
-      "$ref": "userRole.json#"
+      "$ref": "../scalars/userRole.json#"
     },
     "points": {
-      "$ref": "points.json#"
+      "$ref": "../scalars/points.json#"
     },
     "rooms": {
       "type": "array",

@@ -1,0 +1,25 @@
+{
+  "title": "MV1PlayerUpdate",
+  "type": "object",
+  "properties": {
+    "player": {
+      "$ref": "../../models/player.json#"
+    },
+    "joinResult": {
+      "$ref": "../../scalars/joinResult.json#"
+    },
+    "joinedRoom": {
+      "$ref": "../../models/socketRoom.json#"
+    },
+    "leftRoom": {
+      "$ref": "../../scalars/roomID.json#"
+    },
+    "leftRoomReason": {
+      "$ref": "../../scalars/leaveReason.json#"
+    },
+    "key": {
+      "$ref": "../../scalars/messageKey.json#"
+    }
+  },
+  "additionalProperties": false
+}

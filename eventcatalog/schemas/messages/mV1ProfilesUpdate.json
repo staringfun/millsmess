@@ -5,13 +5,13 @@
     "rooms": {
       "type": "array",
       "items": {
-        "$ref": "roomID.json#"
+        "$ref": "../models/room.json#"
       }
     },
     "users": {
       "type": "array",
       "items": {
-        "$ref": "user.json#"
+        "$ref": "../models/user.json#"
       }
     }
   },

@@ -3,16 +3,16 @@
   "type": "object",
   "properties": {
     "sessionID": {
-      "$ref": "SessionID.json#"
+      "$ref": "../scalars/sessionID.json#"
     },
     "userID": {
-      "$ref": "userID.json#"
+      "$ref": "../scalars/userID.json#"
     },
     "isWin": {
       "type": "boolean"
     },
     "points": {
-      "$ref": "points.json#"
+      "$ref": "../scalars/points.json#"
     },
     "finishedAt": {
       "type": "string",

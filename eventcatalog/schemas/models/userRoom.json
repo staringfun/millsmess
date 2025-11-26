@@ -3,13 +3,13 @@
   "type": "object",
   "properties": {
     "playerID": {
-      "$ref": "playerID.json#"
+      "$ref": "../scalars/playerID.json#"
     },
     "roomID": {
-      "$ref": "roomID.json#"
+      "$ref": "../scalars/roomID.json#"
     },
     "region": {
-      "$ref": "region.json#"
+      "$ref": "../scalars/region.json#"
     }
   },
   "required": ["playerID", "roomID", "region"],

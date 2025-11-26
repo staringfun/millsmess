@@ -1,128 +1,139 @@
 {
   "title": "RootSchema",
   "$defs": {
-    "LockKey": {
-      "$ref": "lockKey.json#"
-    },
-    "Lock": {
-      "$ref": "lock.json#"
-    },
-    "JoinResult": {
-      "$ref": "joinResult.json#"
-    },
-    "LeaveReason": {
-      "$ref": "leaveReason.json#"
-    },
-    "MessageKey": {
-      "$ref": "messageKey.json#"
+    "DisconnectReason": {
+      "$ref": "./scalars/disconnectReason.json#"
     },
     "Email": {
-      "$ref": "email.json#"
+      "$ref": "./scalars/email.json#"
     },
-    "Points": {
-      "$ref": "points.json#"
+    "Game": {
+      "$ref": "./scalars/game.json#"
     },
-    "UserID": {
-      "$ref": "userID.json#"
+    "JoinResult": {
+      "$ref": "./scalars/joinResult.json#"
     },
-    "Username": {
-      "$ref": "username.json#"
+    "LeaveReason": {
+      "$ref": "./scalars/leaveReason.json#"
     },
-    "UserRole": {
-      "$ref": "userRole.json#"
+    "LockKey": {
+      "$ref": "./scalars/lockKey.json#"
     },
-    "User": {
-      "$ref": "user.json#"
-    },
-    "UserGuest": {
-      "$ref": "userGuest.json#"
-    },
-    "UserMember": {
-      "$ref": "userMember.json#"
-    },
-    "UserModerator": {
-      "$ref": "userModerator.json#"
-    },
-    "UserAdmin": {
-      "$ref": "userAdmin.json#"
-    },
-    "RoomID": {
-      "$ref": "roomID.json#"
-    },
-    "Room": {
-      "$ref": "room.json#"
-    },
-    "SocketRoomPlayerData": {
-      "$ref": "socketRoomPlayerData.json#"
-    },
-    "SocketRoomPlayer": {
-      "$ref": "socketRoomPlayer.json#"
-    },
-    "SocketRoom": {
-      "$ref": "socketRoom.json#"
+    "./messageKey": {
+      "$ref": "./scalars/messageKey.json#"
     },
     "PlayerID": {
-      "$ref": "playerID.json#"
+      "$ref": "./scalars/playerID.json#"
     },
-    "Player": {
-      "$ref": "player.json#"
-    },
-    "game": {
-      "$ref": "game.json#"
-    },
-    "SessionID": {
-      "$ref": "sessionID.json#"
-    },
-    "SocketSessionPlayer": {
-      "$ref": "socketSessionPlayer.json#"
-    },
-    "SocketSession": {
-      "$ref": "socketSession.json#"
-    },
-    "MV1PlayerMove": {
-      "$ref": "mV1PlayerMove.json#"
+    "Points": {
+      "$ref": "./scalars/points.json#"
     },
     "Region": {
-      "$ref": "region.json#"
+      "$ref": "./scalars/region.json#"
     },
-    "UserRoom": {
-      "$ref": "userRoom.json#"
+    "RoomID": {
+      "$ref": "./scalars/roomID.json#"
+    },
+    "SessionID": {
+      "$ref": "./scalars/sessionID.json#"
+    },
+    "UserID": {
+      "$ref": "./scalars/userID.json#"
+    },
+    "Username": {
+      "$ref": "./scalars/username.json#"
+    },
+    "UserRole": {
+      "$ref": "./scalars/userRole.json#"
+    },
+
+
+
+    "Lock": {
+      "$ref": "./models/lock.json#"
+    },
+    "Player": {
+      "$ref": "./models/player.json#"
+    },
+    "Room": {
+      "$ref": "./models/room.json#"
     },
     "Session": {
-      "$ref": "session.json#"
+      "$ref": "./models/session.json#"
     },
     "SessionPlayer": {
-      "$ref": "sessionPlayer.json#"
+      "$ref": "./models/sessionPlayer.json#"
     },
-    "DisconnectReason": {
-      "$ref": "disconnectReason.json#"
+    "SocketRoom": {
+      "$ref": "./models/socketRoom.json#"
     },
-    "MV1Disconnect": {
-      "$ref": "mv1Disconnect.json#"
+    "SocketRoomPlayer": {
+      "$ref": "./models/socketRoomPlayer.json#"
     },
-    "MV1PlayerUpdate": {
-      "$ref": "mv1PlayerUpdate.json#"
+    "SocketRoomPlayerData": {
+      "$ref": "./models/socketRoomPlayerData.json#"
     },
-    "MV1RoomJoin": {
-      "$ref": "mv1RoomJoin.json#"
+    "SocketSession": {
+      "$ref": "./models/socketSession.json#"
     },
-    "MV1RoomLeave": {
-      "$ref": "mv1RoomLeave.json#"
+    "SocketSessionPlayer": {
+      "$ref": "./models/socketSessionPlayer.json#"
     },
-    "MV1RoomMatch": {
-      "$ref": "mv1RoomMatch.json#"
+    "User": {
+      "$ref": "./models/user.json#"
     },
-    "MV1RoomSessionStart": {
-      "$ref": "mv1RoomSessionStart.json#"
+    "UserAdmin": {
+      "$ref": "./models/userAdmin.json#"
     },
-    "MV1RoomSessionRematch": {
-      "$ref": "mv1RoomSessionRematch.json#"
+    "UserGuest": {
+      "$ref": "./models/userGuest.json#"
+    },
+    "UserMember": {
+      "$ref": "./models/userMember.json#"
+    },
+    "UserModerator": {
+      "$ref": "./models/userModerator.json#"
+    },
+    "UserRoom": {
+      "$ref": "./models/userRoom.json#"
+    },
+
+
+
+    "MV1PlayerMove": {
+      "$ref": "./messages/mV1PlayerMove.json#"
     },
     "MV1ProfilesUpdate": {
-      "$ref": "mV1ProfilesUpdate.json#"
+      "$ref": "./messages/mV1ProfilesUpdate.json#"
     },
     "MV1SessionUpdate": {
-      "$ref": "mV1SessionUpdate.json#"
+      "$ref": "./messages/mV1SessionUpdate.json#"
+    },
+
+
+    "MV1Disconnect": {
+      "$ref": "./messages/socket/mv1Disconnect.json#"
+    },
+    "MV1PlayerUpdate": {
+      "$ref": "./messages/socket/mv1PlayerUpdate.json#"
+    },
+    "MV1RoomJoin": {
+      "$ref": "./messages/socket/mv1RoomJoin.json#"
+    },
+    "MV1RoomLeave": {
+      "$ref": "./messages/socket/mv1RoomLeave.json#"
+    },
+    "MV1RoomMatch": {
+      "$ref": "./messages/socket/mv1RoomMatch.json#"
+    },
+    "MV1RoomSessionRematch": {
+      "$ref": "./messages/socket/mv1RoomSessionRematch.json#"
+    },
+    "MV1RoomSessionStart": {
+      "$ref": "./messages/socket/mv1RoomSessionStart.json#"
+    },
+    "MV1SocketRoomPlayerDataUpdate": {
+      "$ref": "./messages/socket/mV1SocketRoomPlayerDataUpdate.json#"
     }
   }
 }

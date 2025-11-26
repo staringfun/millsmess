@@ -1,0 +1,14 @@
+{
+  "title": "MV1SocketRoomPlayerDataUpdate",
+  "type": "object",
+  "properties": {
+    "data": {
+      "$ref": "../../models/socketRoomPlayerData.json#"
+    },
+    "key": {
+      "$ref": "../../scalars/messageKey.json#"
+    }
+  },
+  "required": ["data"],
+  "additionalProperties": false
+}

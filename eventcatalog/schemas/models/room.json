@@ -3,10 +3,10 @@
   "type": "object",
   "properties": {
     "id": {
-      "$ref": "roomID.json#"
+      "$ref": "../scalars/roomID.json#"
     },
     "ownerID": {
-      "$ref": "userID.json#"
+      "$ref": "../scalars/userID.json#"
     },
     "owner": {
       "$ref": "user.json#"

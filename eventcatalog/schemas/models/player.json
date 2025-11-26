@@ -3,10 +3,10 @@
   "type": "object",
   "properties": {
     "id": {
-      "$ref": "playerID.json#"
+      "$ref": "../scalars/playerID.json#"
     },
     "roomID": {
-      "$ref": "roomID.json#"
+      "$ref": "../scalars/roomID.json#"
     },
     "rooms": {
       "type": "array",

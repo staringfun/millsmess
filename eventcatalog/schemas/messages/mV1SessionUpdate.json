@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "session": {
-      "$ref": "socketSession.json#"
+      "$ref": "../models/socketSession.json#"
     },
     "timestamp": {
       "type": "string",

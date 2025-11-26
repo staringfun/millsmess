@@ -4,19 +4,19 @@
   "goImplements": "User",
   "properties": {
     "id": {
-      "$ref": "userID.json#"
+      "$ref": "../scalars/userID.json#"
     },
     "username": {
-      "$ref": "username.json#"
+      "$ref": "../scalars/username.json#"
     },
     "role": {
-      "$ref": "userRole.json#"
+      "$ref": "../scalars/userRole.json#"
     },
     "email": {
-      "$ref": "email.json#"
+      "$ref": "../scalars/email.json#"
     },
     "points": {
-      "$ref": "points.json#"
+      "$ref": "../scalars/points.json#"
     },
     "rooms": {
       "type": "array",

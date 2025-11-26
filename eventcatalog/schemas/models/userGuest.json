@@ -1,22 +1,19 @@
 {
-  "title": "UserAdmin",
+  "title": "UserGuest",
   "type": "object",
   "goImplements": "User",
   "properties": {
     "id": {
-      "$ref": "userID.json#"
+      "$ref": "../scalars/userID.json#"
     },
     "username": {
-      "$ref": "username.json#"
+      "$ref": "../scalars/username.json#"
     },
     "role": {
-      "$ref": "userRole.json#"
+      "$ref": "../scalars/userRole.json#"
     },
     "points": {
-      "$ref": "points.json#"
-    },
-    "email": {
-      "$ref": "email.json#"
+      "$ref": "../scalars/points.json#"
     },
     "rooms": {
       "type": "array",
@@ -33,6 +30,6 @@
       "format": "date"
     }
   },
-  "required": ["id", "username", "role", "points", "email", "rooms", "createdAt"],
+  "required": ["id", "username", "points", "role", "rooms", "createdAt"],
   "additionalProperties": false
 }

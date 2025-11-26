@@ -1,21 +1,23 @@
 {
-  "title": "Session",
+  "title": "SocketSession",
   "type": "object",
+  "goInterface": true,
   "properties": {
     "id": {
-      "$ref": "SessionID.json#"
-    },
-    "roomID": {
-      "$ref": "roomID.json#"
+      "$ref": "../scalars/sessionID.json#"
     },
     "game": {
-      "$ref": "game.json#"
+      "$ref": "../scalars/game.json#"
     },
     "players": {
-      "type": "array",
-      "items": {
-        "$ref": "sessionPlayer.json#"
+      "type": "object",
+      "goKeyType": "UserID",
+      "additionalProperties": {
+        "$ref": "./socketSessionPlayer.json#"
       }
+    },
+    "data": {
+      "type": "object"
     },
     "createdAt": {
       "type": "string",
@@ -30,6 +32,6 @@
       "format": "date-time"
     }
   },
-  "required": ["id", "game", "players", "createdAt"],
+  "required": ["id", "game", "players", "data", "createdAt"],
   "additionalProperties": false
 }

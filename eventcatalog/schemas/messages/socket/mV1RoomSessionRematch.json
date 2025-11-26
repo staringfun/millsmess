@@ -3,16 +3,16 @@
   "type": "object",
   "properties": {
     "roomID": {
-      "$ref": "roomID.json#"
+      "$ref": "../../scalars/roomID.json#"
     },
     "sessionID": {
-      "$ref": "sessionID.json#"
+      "$ref": "../../scalars/sessionID.json#"
     },
     "isRematch": {
       "type": "boolean"
     },
     "key": {
-      "$ref": "messageKey.json#"
+      "$ref": "../../scalars/messageKey.json#"
     }
   },
   "required": ["roomID", "sessionID", "isRematch"],

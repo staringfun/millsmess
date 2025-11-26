@@ -3,19 +3,19 @@
   "type": "object",
   "properties": {
     "playerID": {
-      "$ref": "playerID.json#"
+      "$ref": "../scalars/playerID.json#"
     },
     "userID": {
-      "$ref": "userID.json#"
+      "$ref": "../scalars/userID.json#"
     },
     "joinedRoom": {
-      "$ref": "roomID.json#"
+      "$ref": "../scalars/roomID.json#"
     },
     "leftRoom": {
-      "$ref": "roomID.json#"
+      "$ref": "../scalars/roomID.json#"
     },
     "leftRoomReason": {
-      "$ref": "leaveReason.json#"
+      "$ref": "../scalars/leaveReason.json#"
     }
   },
   "required": ["playerID", "userID"],

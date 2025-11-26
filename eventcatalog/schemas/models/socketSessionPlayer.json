@@ -6,7 +6,7 @@
       "type": "boolean"
     },
     "points": {
-      "$ref": "points.json#"
+      "$ref": "../scalars/points.json#"
     },
     "data": {
       "type": "object"

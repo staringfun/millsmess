@@ -3,13 +3,13 @@
   "type": "object",
   "properties": {
     "id": {
-      "$ref": "playerID.json#"
+      "$ref": "../scalars/playerID.json#"
     },
     "profile": {
-      "$ref": "user.json#"
+      "$ref": "../models/user.json#"
     },
     "data": {
-      "$ref": "socketRoomPlayerData.json#"
+      "$ref": "../models/socketRoomPlayerData.json#"
     }
   },
   "required": ["id", "profile", "data"],
